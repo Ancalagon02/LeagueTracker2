@@ -58,7 +58,7 @@ class CompetitionData():
         name = self.cur.execute(query, data).fetchone()
 
         output = Competition(
-                id = id,
+                id = league_id,
                 name = name,
                 clubs = clubs
         )
