@@ -1,12 +1,14 @@
-
-from database.club_data import ClubData
-from database.league_data import LeagueData
-
+from PyQt6.QtWidgets import QApplication
+import sys
+from ui.main_window import MainWindow
+from ui.create_league import CreateLeague 
 
 def main():
-    database = "LTracker.db"
+    app = QApplication([])
+    window = CreateLeague()
+    window.show()
 
-    lgd = ClubData(database)
+    sys.exit(app.exec())
     
 if __name__ == "__main__":
     main()
