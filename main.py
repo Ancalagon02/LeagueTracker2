@@ -3,10 +3,11 @@ import sys
 from ui.main_window import MainWindow
 from ui.create_league import CreateLeague 
 from ui.competition import Competition
+from ui.matches import Matches
 
 def main():
     app = QApplication([])
-    window = Competition()
+    window = Matches()
     window.show()
 
     sys.exit(app.exec())
