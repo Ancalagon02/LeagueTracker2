@@ -1,11 +1,11 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from .country import Country
 
 @dataclass
 class Club:
-    club_name: str
-    country: Country
     id: int = 0
+    country: Country = field(default_factory= Country)
+    club_name: str = ""
     times_played: int = 0
     times_won: int = 0
     times_loses: int = 0
