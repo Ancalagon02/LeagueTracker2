@@ -5,6 +5,7 @@ from PyQt6.QtCore import *
 class Matches(QWidget):
     def __init__(self):
         super().__init__()
+        self.datepicker = QDateEdit()
         self.team_one_label = QLabel()
         self.team_one_dropdown = QComboBox()
         self.team_one_spinebox = QSpinBox()
@@ -20,7 +21,13 @@ class Matches(QWidget):
 
     def create_window(self):
         self.set_layout()
+        self.set_datepicker()
         self.set_labels()
+
+
+    def set_datepicker(self):
+        self.datepicker.setCalendarPopup(True)
+        self.datepicker.setDate(QDate.currentDate())
 
 
     def set_layout(self):
@@ -31,6 +38,7 @@ class Matches(QWidget):
         self.row1.addWidget(self.versus_label, alignment=Qt.AlignmentFlag.AlignCenter)
         self.row1.addWidget(self.team_two())
 
+        self.master.addWidget(self.datepicker)
         self.master.addLayout(self.row1)
         self.master.addWidget(self.match_button)
         self.master.addWidget(self.go_back_button)

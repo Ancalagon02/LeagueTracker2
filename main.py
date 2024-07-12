@@ -7,7 +7,8 @@ from ui.matches import Matches
 
 def main():
     app = QApplication([])
-    
+    window = Matches()
+    window.show()
 
     sys.exit(app.exec())
     
