@@ -7,7 +7,7 @@ from ui.matches import Matches
 
 def main():
     app = QApplication([])
-    window = Matches()
+    window = Competition()
     window.show()
 
     sys.exit(app.exec())
