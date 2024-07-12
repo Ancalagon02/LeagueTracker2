@@ -31,22 +31,33 @@ class CreateLeague(QWidget):
 
     def set_layout(self):
         self.master = QHBoxLayout()
-        #change to grid
+
         self.col1 = QVBoxLayout()
-        self.col1.addWidget(self.select_country())
-        self.col1.addWidget(self.create_country())
-        self.col1.addWidget(self.select_competition_name_label)
+
+        self.col1_row1 = QHBoxLayout()
+        self.col1_row1_col1 = QVBoxLayout()
+        self.col1_row1_col1.addWidget(self.select_country())
+        self.col1_row1_col1.addWidget(self.create_country())
+        self.col1_row1_col1.addWidget(self.select_competition_name_label)
+
+        self.col1_row1_col2 = QVBoxLayout()
+        self.col1_row1_col2.addWidget(self.competition_name())
+        self.col1_row1_col2.addWidget(self.select_team())
+        self.col1_row1_col2.addWidget(self.select_competition_name_text_label)
+
+        self.col1_row1.addLayout(self.col1_row1_col1)
+        self.col1_row1.addLayout(self.col1_row1_col2)
+
+        self.col1.addLayout(self.col1_row1)
+        self.col1.addWidget(self.create_competition_button)
 
         self.col2 = QVBoxLayout()
-        self.col2.addWidget(self.competition_name())
-        self.col2.addWidget(self.select_team())
-        self.col2.addWidget(self.select_competition_name_text_label)
+        self.col2.addWidget(self.teams_label)
+        self.col2.addWidget(self.teams_listview)
 
         self.master.addLayout(self.col1)
         self.master.addLayout(self.col2)
 
-        self.master.addWidget(self.teams_listview)
-        
         self.setLayout(self.master)
 
 
