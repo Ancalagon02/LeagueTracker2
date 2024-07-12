@@ -4,6 +4,6 @@ from .club import Club
 
 @dataclass
 class Competition():
-    name: League
     id: int = 0
+    country: League = field(default_factory= League)
     clubs: list[Club] = field(default_factory=lambda: [])
