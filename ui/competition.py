@@ -55,9 +55,15 @@ class Competition(Style, QWidget):
         self.competition_table.setColumnCount(9)
         self.competition_table.setHorizontalHeaderLabels(["Ploeg", "P", "L", "D", "P", "F", "A", "GD", "pts"])
         self.competition_table.setRowCount(24)
-        item = QTableWidgetItem("test")
+        item = QTableWidgetItem("Anderlecht")
         item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
         self.competition_table.setItem(0, 0, QTableWidgetItem(item))
+        self.competition_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.competition_table.setAlternatingRowColors(True)
+        self.competition_table.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
+        self.competition_table.verticalHeader().setSectionsClickable(False)
+        self.competition_table.horizontalHeader().setSectionsClickable(False)
+        self.competition_table.resizeColumnsToContents()
 
 
     def match_dates(self) -> QWidget:

@@ -26,7 +26,12 @@ QListWidget::item:selected {
     background: transparent;
 }
 
-QTableWidget::item {
-    padding: 90px;
-    margin: 90px;
+QTableWidget {
+    font-size: 18px;
 }
+
+QTableWidget::item {
+    padding: 10px;
+    font-size: 20px
+}
+
