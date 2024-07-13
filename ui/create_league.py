@@ -1,7 +1,8 @@
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
+from ui.style import Style
 
-class CreateLeague(QWidget):
+class CreateLeague(Style, QWidget):
     def __init__(self):
         super().__init__()
         self.select_country_label = QLabel()

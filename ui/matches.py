@@ -1,8 +1,9 @@
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
+from ui.style import Style
 
-class Matches(QWidget):
+class Matches(Style, QWidget):
     def __init__(self):
         super().__init__()
         self.datepicker = QDateEdit()
