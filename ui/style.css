@@ -25,3 +25,8 @@ QListWidget::item:hover {
 QListWidget::item:selected {
     background: transparent;
 }
+
+QTableWidget::item {
+    padding: 90px;
+    margin: 90px;
+}

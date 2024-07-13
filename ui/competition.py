@@ -17,6 +17,7 @@ class Competition(Style, QWidget):
         self.competition_table = QTableWidget()
 
         self.create_window()
+        self.resize(970, 900)
 
 
     def create_window(self):
@@ -53,6 +54,10 @@ class Competition(Style, QWidget):
         self.go_back_to_main_button.setText("Ga Terug")
         self.competition_table.setColumnCount(9)
         self.competition_table.setHorizontalHeaderLabels(["Ploeg", "P", "L", "D", "P", "F", "A", "GD", "pts"])
+        self.competition_table.setRowCount(24)
+        item = QTableWidgetItem("test")
+        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.competition_table.setItem(0, 0, QTableWidgetItem(item))
 
 
     def match_dates(self) -> QWidget:
