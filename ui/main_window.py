@@ -1,7 +1,8 @@
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import * 
+from PyQt6.QtCore import *
+from ui.style import Style 
 
-class MainWindow(QWidget):
+class MainWindow(Style, QWidget):
     def __init__(self):
         super().__init__()
         self.select_country_label = QLabel()
