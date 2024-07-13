@@ -1,5 +1,6 @@
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
+from PyQt6.QtCore import *
 from ui.style import Style
 
 class CreateLeague(Style, QWidget):
@@ -19,7 +20,7 @@ class CreateLeague(Style, QWidget):
         self.select_competition_name_label = QLabel()
         self.select_competition_name_text_label = QLabel()
         self.teams_label = QLabel()
-        self.teams_listview = QListView()
+        self.teams_listview = QListWidget()
         self.create_competition_button = QPushButton()
 
         self.create_window()
@@ -28,6 +29,7 @@ class CreateLeague(Style, QWidget):
     def create_window(self):
         self.set_layout()
         self.set_labels()
+        self.setMinimumWidth(750)
 
 
     def set_layout(self):
@@ -64,15 +66,42 @@ class CreateLeague(Style, QWidget):
 
     def set_labels(self):
         self.select_country_label.setText("selecteer land")
+        self.select_country_label.setObjectName("select_country")
+        self.select_country_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         self.create_country_label.setText("Maak Land")
+        self.create_country_label.setObjectName("create_country")
+        self.create_country_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         self.create_country_button.setText("Maak")
         self.competition_name_label.setText("Competitie Naam")
+        self.competition_name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         self.competition_name_Button.setText("Maak")
         self.select_team_label.setText("Selecteer Ploeg")
+        self.select_team_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
         self.select_team_button.setText("Voeg Toe")
-        self.select_competition_name_label.setText("Competitie Naam")
+        self.select_competition_name_label.setText("Competitie Naam:")
+        self.select_competition_name_label.setObjectName("comp_label")
+        self.select_competition_name_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.select_competition_name_text_label.setText("placeholder")
+        self.select_competition_name_text_label.setObjectName("comp_label")
+        self.select_competition_name_text_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
+
         self.create_competition_button.setText("Maak Competitie")
         self.teams_label.setText("Teams")
+        self.teams_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.teams_listview.addItems(["ploeg 1", "ploeg 2", "ploeg 3", "ploeg 4", "ploeg 5", "ploeg 6",
+                                     "ploeg 7", "ploeg 8", "ploeg 9", "ploeg 10", "ploeg 11", "ploeg 12",
+                                     "ploeg 13", "ploeg 14", "ploeg 15", "ploeg 16", "ploeg 17", "ploeg 18",
+                                     "ploeg 19", "ploeg 20", "ploeg 21", "ploeg 22", "ploeg 23", "ploeg 24"])
+
+        self.teams_listview.setWrapping(True)
+        self.teams_listview.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.teams_listview.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 
 
     def select_country(self) -> QWidget:
