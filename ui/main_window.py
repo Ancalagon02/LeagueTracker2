@@ -5,20 +5,33 @@ from ui.style import Style
 class MainWindow(Style, QWidget):
     def __init__(self):
         super().__init__()
-        self.select_country_label = QLabel()
-        self.select_country_dropdown = QComboBox()
-        self.create_competition_button = QPushButton()
-        self.competitions_listview = QListView()
-        self.selected_competition_label = QLabel()
-        self.selected_competition_name_label = QLabel()
-        self.start_competition_button = QPushButton()
+        self.init_ui()
 
-        self.create_window()
-
-
-    def create_window(self):
         self.set_layout()
-        self.set_labels()
+
+        self.setFixedSize(self.width() - 100, self.height() - 100)
+
+
+    def init_ui(self):
+        self.setWindowTitle("Start Scherm")
+
+        self.select_country_label = QLabel()
+        self.select_country_label.setText("Selecteer Land:")
+
+        self.select_country_dropdown = QComboBox()
+
+        self.create_competition_button = QPushButton()
+        self.create_competition_button.setText("Maak Competitie")
+
+        self.competitions_listview = QListWidget()
+
+        self.selected_competition_label = QLabel()
+
+        self.selected_competition_name_label = QLabel()
+        self.selected_competition_label.setText("Competitie:")
+
+        self.start_competition_button = QPushButton()
+        self.start_competition_button.setText("Start Competitie")
 
 
     def set_layout(self):
@@ -42,11 +55,3 @@ class MainWindow(Style, QWidget):
         self.master.addLayout(self.row3)
 
         self.setLayout(self.master)
-
-
-    def set_labels(self):
-        self.select_country_label.setText("Selecteer Land:")
-        self.selected_competition_label.setText("Competitie:")
-        self.create_competition_button.setText("Maak Competitie")
-        self.start_competition_button.setText("Start Competitie")
-
