@@ -14,17 +14,6 @@ QLabel#select_country {
     margin-top: 15px;
 }
 
-QLabel#comp_label {
-    padding-bottom: 5px;
-}
-
-QListWidget::item:hover {
-    background: transparent;
-}
-
-QListWidget::item:selected {
-    background: transparent;
-}
 
 QTableWidget {
     font-size: 18px;
