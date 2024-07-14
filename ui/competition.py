@@ -1,3 +1,4 @@
+from datetime import datetime
 from PyQt6.QtGui import *
 from PyQt6.QtWidgets import *
 from PyQt6.QtCore import *
@@ -6,18 +7,11 @@ from ui.style import Style
 class Competition(Style, QWidget):
     def __init__(self):
         super().__init__()
-        self.competition_label = QLabel()
-        self.competition_name_label = QLabel()
-        self.datematch_label = QLabel()
-        self.datematch_up_button = QToolButton()
-        self.datematch_down_button = QToolButton()
-        self.start_matches_button = QPushButton()
-        self.go_back_to_main_button = QPushButton()
-        self.competition_table = QTableWidget()
+        self.init_ui()
 
-        self.create_window()
+        self.set_layout()
 
-        row = 70
+        row = 40
         col = 170
 
         for row1 in range(self.competition_table.columnCount()):
@@ -28,19 +22,41 @@ class Competition(Style, QWidget):
             print(col)
 
 
-        self.resize(row, col)
+        self.setFixedSize(row, col)
 
 
-    def create_window(self):
-        self.set_layout()
-        self.set_labels()
-        self.set_tool_buttons()
+    def init_ui(self):
+        self.competition_label = QLabel()
+        self.competition_label.setText("Competitie Naam:")
+        self.competition_label.setObjectName("comp_label")
 
+        self.competition_name_label = QLabel()
+        self.competition_name_label.setText("placeholder")
 
-    def set_tool_buttons(self):
+        self.datematch_label = QLabel()
+        self.datematch_label.setText(datetime.now().strftime("%d %B %Y"))
+
+        self.datematch_up_button = QToolButton()
         self.datematch_up_button.setArrowType(Qt.ArrowType.UpArrow)
+
+        self.datematch_down_button = QToolButton()
         self.datematch_down_button.setArrowType(Qt.ArrowType.DownArrow)
 
+        self.start_matches_button = QPushButton()
+        self.start_matches_button.setText("Start Wedestrijd")
+
+        self.go_back_to_main_button = QPushButton()
+        self.go_back_to_main_button.setText("Ga Terug")
+
+        self.competition_table = QTableWidget()
+        self.competition_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+        self.competition_table.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
+        self.competition_table.verticalHeader().setSectionsClickable(False)
+        self.competition_table.horizontalHeader().setSectionsClickable(False)
+        self.competition_table.setAlternatingRowColors(True)
+        self.competition_table.setColumnCount(9)
+        self.competition_table.setHorizontalHeaderLabels(["Ploeg", "P", "L", "D", "P", "F", "A", "GD", "pts"])
+        
 
     def set_layout(self):
         self.master = QVBoxLayout()
@@ -56,25 +72,6 @@ class Competition(Style, QWidget):
         self.master.addWidget(self.competition_table)
 
         self.setLayout(self.master)
-
-
-
-    def set_labels(self):
-        self.competition_label.setText("Competitie Naam")
-        self.start_matches_button.setText("Start Wedestrijd")
-        self.go_back_to_main_button.setText("Ga Terug")
-        self.competition_table.setColumnCount(9)
-        self.competition_table.setHorizontalHeaderLabels(["Ploeg", "P", "L", "D", "P", "F", "A", "GD", "pts"])
-        self.competition_table.setRowCount(24)
-        item = QTableWidgetItem("Anderlecht")
-        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.competition_table.setItem(0, 0, QTableWidgetItem(item))
-        self.competition_table.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-        self.competition_table.setAlternatingRowColors(True)
-        self.competition_table.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
-        self.competition_table.verticalHeader().setSectionsClickable(False)
-        self.competition_table.horizontalHeader().setSectionsClickable(False)
-        self.competition_table.resizeColumnsToContents()
 
 
     def match_dates(self) -> QWidget:
