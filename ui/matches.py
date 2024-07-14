@@ -6,29 +6,41 @@ from ui.style import Style
 class Matches(Style, QWidget):
     def __init__(self):
         super().__init__()
-        self.datepicker = QDateEdit()
-        self.team_one_label = QLabel()
-        self.team_one_dropdown = QComboBox()
-        self.team_one_spinebox = QSpinBox()
-        self.team_two_label = QLabel()
-        self.team_two_dropdown = QComboBox()
-        self.team_two_spinebox = QSpinBox()
-        self.versus_label = QLabel()
-        self.match_button = QPushButton()
-        self.go_back_button = QPushButton()
+        self.init_ui()
 
-        self.create_window()
-
-
-    def create_window(self):
         self.set_layout()
-        self.set_datepicker()
-        self.set_labels()
+
+        self.setFixedSize(self.width() -300, self.height() -150)
 
 
-    def set_datepicker(self):
+    def init_ui(self):
+        self.datepicker = QDateEdit()
         self.datepicker.setCalendarPopup(True)
         self.datepicker.setDate(QDate.currentDate())
+
+        self.team_one_label = QLabel()
+        self.team_one_label.setText("placeholder")
+
+        self.team_one_dropdown = QComboBox()
+
+        self.team_one_spinebox = QSpinBox()
+
+        self.team_two_label = QLabel()
+        self.team_two_label.setText("placeholder")
+
+        self.team_two_dropdown = QComboBox()
+
+        self.team_two_spinebox = QSpinBox()
+
+        self.versus_label = QLabel()
+        self.versus_label.setText("VS")
+        self.versus_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.match_button = QPushButton()
+        self.match_button.setText("Match")
+
+        self.go_back_button = QPushButton()
+        self.go_back_button.setText("Ga Terug")
 
 
     def set_layout(self):
@@ -36,7 +48,7 @@ class Matches(Style, QWidget):
 
         self.row1 = QHBoxLayout()
         self.row1.addWidget(self.team_one())
-        self.row1.addWidget(self.versus_label, alignment=Qt.AlignmentFlag.AlignCenter)
+        self.row1.addWidget(self.versus_label)
         self.row1.addWidget(self.team_two())
 
         self.master.addWidget(self.datepicker)
@@ -45,12 +57,6 @@ class Matches(Style, QWidget):
         self.master.addWidget(self.go_back_button)
 
         self.setLayout(self.master)
-
-
-    def set_labels(self):
-        self.match_button.setText("Match")
-        self.go_back_button.setText("Ga Terug")
-        self.versus_label.setText("VS")
 
 
     def team_one(self) -> QWidget:

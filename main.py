@@ -7,7 +7,7 @@ from ui.matches import Matches
 
 def main():
     app = QApplication([])
-    window = CreateLeague()
+    window = Matches()
     window.show()
 
     sys.exit(app.exec())
