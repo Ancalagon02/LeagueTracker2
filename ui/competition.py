@@ -13,11 +13,22 @@ class Competition(Style, QWidget):
         self.datematch_down_button = QToolButton()
         self.start_matches_button = QPushButton()
         self.go_back_to_main_button = QPushButton()
-
         self.competition_table = QTableWidget()
 
         self.create_window()
-        self.resize(970, 900)
+
+        row = 70
+        col = 170
+
+        for row1 in range(self.competition_table.columnCount()):
+            row += self.competition_table.columnWidth(row1)
+
+        for col1 in range(self.competition_table.rowCount()):
+            col += self.competition_table.rowHeight(col1)
+            print(col)
+
+
+        self.resize(row, col)
 
 
     def create_window(self):
