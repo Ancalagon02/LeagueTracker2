@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>CreateCompetition</class>
  <widget class="QWidget" name="CreateCompetition">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>650</width>
-    <height>458</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>Maak Competitie</string>
   </property>
@@ -47,9 +39,6 @@ QComboBox {
    </item>
    <item row="1" column="0" colspan="2">
     <widget class="Line" name="line">
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
      <property name="orientation">
       <enum>Qt::Orientation::Horizontal</enum>
      </property>
@@ -275,66 +264,6 @@ QComboBox {
        <property name="selectionMode">
         <enum>QAbstractItemView::SelectionMode::NoSelection</enum>
        </property>
-       <item>
-        <property name="text">
-         <string>Chesterfield</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>ork city</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>fydie</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Dagnement e ebrand</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Barnet</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Bromley</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Alternicham</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Solid</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Gastehead</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Halfac</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Aalder</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Oldhsm</string>
-        </property>
-       </item>
       </widget>
      </item>
     </layout>

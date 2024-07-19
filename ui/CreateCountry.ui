@@ -15,7 +15,7 @@ QDialogButtonBox {
 }
 </string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="maser_layout">
    <item>
     <widget class="QLabel" name="label">
      <property name="text">

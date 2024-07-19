@@ -7,6 +7,8 @@ class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.setWindowTitle("Start Scherm")
+
         self.init_ui()
         self.set_layout()
 
