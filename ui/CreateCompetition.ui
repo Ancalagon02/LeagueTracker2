@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CreateCompetition</class>
+ <widget class="QWidget" name="CreateCompetition">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>650</width>
+    <height>458</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Maak Competitie</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">* {
+	font-size: 20px;
+}
+
+QPushButton {
+	padding: 7px;
+}
+
+QComboBox {
+	padding: 2px;
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="grid_1" stretch="0,1">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Competitie Naam:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="competition_label">
+       <property name="text">
+        <string>Placeholder</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="Line" name="line">
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <layout class="QVBoxLayout" name="grid_3">
+     <property name="spacing">
+      <number>10</number>
+     </property>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>17</width>
+         <height>15</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame_1">
+       <property name="frameShape">
+        <enum>QFrame::Shape::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Shadow::Plain</enum>
+       </property>
+       <property name="lineWidth">
+        <number>4</number>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0">
+        <property name="topMargin">
+         <number>10</number>
+        </property>
+        <property name="bottomMargin">
+         <number>10</number>
+        </property>
+        <item>
+         <layout class="QVBoxLayout" name="frame_1_col_1">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Selecteer Land</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="frame_1_col_2">
+            <item>
+             <widget class="QComboBox" name="country_comboBox">
+              <item>
+               <property name="text">
+                <string>Belgie</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>England</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="country_pushButton">
+              <property name="text">
+               <string>OK</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame_2">
+       <property name="frameShape">
+        <enum>QFrame::Shape::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Shadow::Plain</enum>
+       </property>
+       <property name="lineWidth">
+        <number>4</number>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <property name="topMargin">
+         <number>10</number>
+        </property>
+        <property name="bottomMargin">
+         <number>10</number>
+        </property>
+        <item>
+         <layout class="QVBoxLayout" name="frame_2_col_1">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Selecteer Ploeg</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="frame_2_col_2">
+            <item>
+             <widget class="QComboBox" name="team_comboBox"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="tean_pushButton">
+              <property name="text">
+               <string>OK</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame_3">
+       <property name="frameShape">
+        <enum>QFrame::Shape::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Shadow::Plain</enum>
+       </property>
+       <property name="lineWidth">
+        <number>4</number>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="topMargin">
+         <number>10</number>
+        </property>
+        <property name="bottomMargin">
+         <number>10</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="frame_3_col_1">
+          <item>
+           <widget class="QPushButton" name="create_country_pushButton">
+            <property name="text">
+             <string>Maak Land</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="create_team_pushButton">
+            <property name="text">
+             <string>Maak Ploeg</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Orientation::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>17</width>
+         <height>16</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="create_competition_pushButton">
+       <property name="text">
+        <string>Maak Competitie</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="1">
+    <layout class="QVBoxLayout" name="grid_2">
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Ploegen</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="teams_listWidget">
+       <property name="focusPolicy">
+        <enum>Qt::FocusPolicy::NoFocus</enum>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Shape::NoFrame</enum>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+       </property>
+       <property name="defaultDropAction">
+        <enum>Qt::DropAction::IgnoreAction</enum>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::SelectionMode::NoSelection</enum>
+       </property>
+       <item>
+        <property name="text">
+         <string>Chesterfield</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>ork city</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>fydie</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Dagnement e ebrand</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Barnet</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Bromley</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Alternicham</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Solid</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Gastehead</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Halfac</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Aalder</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Oldhsm</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

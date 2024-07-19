@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Match</class>
+ <widget class="QWidget" name="Match">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>389</width>
+    <height>286</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Wedestrijd</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">* {
+	font-size: 20px;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="master_layout">
+   <item>
+    <widget class="QDateEdit" name="data_dateEdit">
+     <property name="displayFormat">
+      <string>dddd dd MMMM yyyy</string>
+     </property>
+     <property name="calendarPopup">
+      <bool>true</bool>
+     </property>
+     <property name="timeSpec">
+      <enum>Qt::TimeSpec::LocalTime</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="col_1">
+     <item>
+      <layout class="QVBoxLayout" name="col_1_row_1">
+       <item>
+        <widget class="QLabel" name="team_one_label">
+         <property name="text">
+          <string>Ploeg Een</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="team_one_ComboBox"/>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="team_one_spinBox"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="styleSheet">
+        <string notr="true">QLabel {
+	font-size: 32px;
+}</string>
+       </property>
+       <property name="text">
+        <string>VS</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignmentFlag::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="col_1_row_2">
+       <item>
+        <widget class="QLabel" name="team_two_label">
+         <property name="text">
+          <string>Ploeg Twee</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignmentFlag::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="team_two_comboBox"/>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="team_two_spinBox"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QPushButton" name="match_pushButton">
+     <property name="text">
+      <string>Match</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="go_back_pushButton">
+     <property name="text">
+      <string>Go Back</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

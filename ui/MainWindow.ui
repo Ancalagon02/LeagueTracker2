@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QWidget" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>580</width>
+    <height>332</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Start Scherm</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">* {
+	font-size: 20px;
+}
+
+QPushButton {
+	padding: 7px;
+}
+
+QComboBox {
+	padding: 2px;
+}
+
+QListWidget::item {
+	padding: 1px;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="master_layout">
+   <item>
+    <layout class="QHBoxLayout" name="col_1">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Selecteer Land</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="country_comboBox">
+       <item>
+        <property name="text">
+         <string>Belgie</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>England</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="create_competition_pushButton">
+       <property name="text">
+        <string>Maak Competitie</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QListWidget" name="competitions_listWidget">
+     <property name="frameShape">
+      <enum>QFrame::Shape::NoFrame</enum>
+     </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="sizeAdjustPolicy">
+      <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents</enum>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+     </property>
+     <property name="alternatingRowColors">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="col_2">
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Competitie: </string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="competitie_naam_label">
+       <property name="text">
+        <string>Placeholder</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="start_competitionpushButton">
+       <property name="text">
+        <string>Start Competitie</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
