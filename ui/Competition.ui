@@ -43,6 +43,9 @@
      <property name="selectionMode">
       <enum>QAbstractItemView::SelectionMode::NoSelection</enum>
      </property>
+     <property name="columnCount">
+      <number>9</number>
+     </property>
      <attribute name="horizontalHeaderHighlightSections">
       <bool>false</bool>
      </attribute>
@@ -86,11 +89,6 @@
      </column>
      <column>
       <property name="text">
-       <string>Q</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
        <string>GD</string>
       </property>
      </column>
@@ -102,84 +100,110 @@
     </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="col_1">
+    <layout class="QVBoxLayout" name="row_1">
      <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Datum</string>
+      <widget class="QFrame" name="frame">
+       <property name="frameShape">
+        <enum>QFrame::Shape::Box</enum>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignmentFlag::AlignCenter</set>
+       <property name="frameShadow">
+        <enum>QFrame::Shadow::Plain</enum>
        </property>
+       <property name="lineWidth">
+        <number>4</number>
+       </property>
+       <layout class="QVBoxLayout" name="row_1_col_1">
+        <item>
+         <widget class="QLabel" name="date_label">
+          <property name="text">
+           <string>Speeldag</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="row_1_col_2">
+          <item>
+           <widget class="QComboBox" name="data_comboBox"/>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="row_1_col_2_row_1">
+            <item>
+             <widget class="QToolButton" name="up_button">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="arrowType">
+               <enum>Qt::ArrowType::UpArrow</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="down_button">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="arrowType">
+               <enum>Qt::ArrowType::DownArrow</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="col_2">
-       <item>
-        <layout class="QVBoxLayout" name="col_2_row_1">
-         <item>
-          <widget class="QComboBox" name="data_comboBox"/>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="col_2_row_2">
-         <item>
-          <widget class="QToolButton" name="toolButton">
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="arrowType">
-            <enum>Qt::ArrowType::UpArrow</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QToolButton" name="toolButton_2">
-           <property name="text">
-            <string>...</string>
-           </property>
-           <property name="arrowType">
-            <enum>Qt::ArrowType::DownArrow</enum>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QPushButton" name="match_pushButton">
-       <property name="text">
-        <string>Match</string>
+      <widget class="QFrame" name="frame_2">
+       <property name="frameShape">
+        <enum>QFrame::Shape::Box</enum>
        </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="verticalSpacer">
-       <property name="orientation">
-        <enum>Qt::Orientation::Vertical</enum>
+       <property name="frameShadow">
+        <enum>QFrame::Shadow::Plain</enum>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>20</width>
-         <height>81</height>
-        </size>
+       <property name="lineWidth">
+        <number>4</number>
        </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="go_back_PushButton">
-       <property name="text">
-        <string>Ga Terug</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="exit_pushButton">
-       <property name="text">
-        <string>Exit</string>
-       </property>
+       <layout class="QVBoxLayout" name="row_1_col_3">
+        <item>
+         <widget class="QPushButton" name="match_pushButton">
+          <property name="text">
+           <string>Match</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Orientation::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>81</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="go_back_PushButton">
+          <property name="text">
+           <string>Ga Terug</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="exit_pushButton">
+          <property name="text">
+           <string>Exit</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>
