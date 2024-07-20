@@ -106,7 +106,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Competitie Naam</string>
+        <string>Datum</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
@@ -114,40 +114,33 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="competition_name_label">
-       <property name="text">
-        <string>Placeholder</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="col_1_col_1">
+      <layout class="QHBoxLayout" name="col_2">
        <item>
-        <layout class="QVBoxLayout" name="col_1_col_1_col_1">
+        <layout class="QVBoxLayout" name="col_2_row_1">
          <item>
           <widget class="QComboBox" name="data_comboBox"/>
          </item>
         </layout>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="col_1_col_1_col_2">
+        <layout class="QVBoxLayout" name="col_2_row_2">
          <item>
-          <widget class="QPushButton" name="up_date_pushButton">
+          <widget class="QToolButton" name="toolButton">
            <property name="text">
-            <string>UP</string>
+            <string>...</string>
            </property>
-           <property name="iconSize">
-            <size>
-             <width>15</width>
-             <height>16</height>
-            </size>
+           <property name="arrowType">
+            <enum>Qt::ArrowType::UpArrow</enum>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="dowm_date_pushButton">
+          <widget class="QToolButton" name="toolButton_2">
            <property name="text">
-            <string>DOWN</string>
+            <string>...</string>
+           </property>
+           <property name="arrowType">
+            <enum>Qt::ArrowType::DownArrow</enum>
            </property>
           </widget>
          </item>
@@ -156,15 +149,11 @@
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="col_1_col_2">
-       <item>
-        <widget class="QPushButton" name="match_pushButton">
-         <property name="text">
-          <string>Match</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QPushButton" name="match_pushButton">
+       <property name="text">
+        <string>Match</string>
+       </property>
+      </widget>
      </item>
      <item>
       <spacer name="verticalSpacer">

@@ -4,11 +4,12 @@ from ui.create_country import CreateCountry
 from ui.create_team import CreateTeam
 from ui.match import Match
 from ui.create_competition import CreateCompetition
+from ui.competition import Competition
 import sys
 
 def main():
     app = QApplication([])
-    window = CreateCompetition()
+    window = Competition()
     window.show()
 
     sys.exit(app.exec())
