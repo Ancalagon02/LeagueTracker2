@@ -5,6 +5,7 @@ from ui.create_team import CreateTeam
 from ui.match import Match
 from ui.create_competition import CreateCompetition
 from ui.competition import Competition
+from ui.create_competition_name import CreateCompetitionName
 import sys
 
 def main():
@@ -26,7 +27,10 @@ def main():
     #match.show()
 
     createcompetition = CreateCompetition()
-    createcompetition.show()
+    #createcompetition.show()
+
+    createcompetitionname = CreateCompetitionName()
+    createcompetitionname.show()
 
     sys.exit(app.exec())
     
