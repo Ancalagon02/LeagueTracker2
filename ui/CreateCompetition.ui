@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>CreateCompetition</class>
  <widget class="QWidget" name="CreateCompetition">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>547</width>
+    <height>478</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>Maak Competitie</string>
   </property>
@@ -18,7 +26,7 @@ QComboBox {
 	padding: 2px;
 }</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="master_layout">
    <item row="0" column="0" colspan="2">
     <layout class="QHBoxLayout" name="grid_1" stretch="0,1">
      <item>
@@ -45,7 +53,7 @@ QComboBox {
     </widget>
    </item>
    <item row="2" column="0">
-    <layout class="QVBoxLayout" name="grid_3">
+    <layout class="QVBoxLayout" name="grid_2">
      <property name="spacing">
       <number>10</number>
      </property>
@@ -73,7 +81,7 @@ QComboBox {
        <property name="lineWidth">
         <number>4</number>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0">
+       <layout class="QVBoxLayout" name="frame_1_layout">
         <property name="topMargin">
          <number>10</number>
         </property>
@@ -81,7 +89,7 @@ QComboBox {
          <number>10</number>
         </property>
         <item>
-         <layout class="QVBoxLayout" name="frame_1_col_1">
+         <layout class="QVBoxLayout" name="grid_2_frame_1_col_1">
           <item>
            <widget class="QLabel" name="label">
             <property name="text">
@@ -93,7 +101,7 @@ QComboBox {
            </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="frame_1_col_2">
+           <layout class="QHBoxLayout" name="grid_2_frame_1_col_2">
             <item>
              <widget class="QComboBox" name="country_comboBox">
               <item>
@@ -133,7 +141,7 @@ QComboBox {
        <property name="lineWidth">
         <number>4</number>
        </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <layout class="QVBoxLayout" name="frame_2_layout">
         <property name="topMargin">
          <number>10</number>
         </property>
@@ -141,7 +149,7 @@ QComboBox {
          <number>10</number>
         </property>
         <item>
-         <layout class="QVBoxLayout" name="frame_2_col_1">
+         <layout class="QVBoxLayout" name="grid_2_frame_2_col_1">
           <item>
            <widget class="QLabel" name="label_2">
             <property name="text">
@@ -153,7 +161,7 @@ QComboBox {
            </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="frame_2_col_2">
+           <layout class="QHBoxLayout" name="grid_2_frame_2_col_2">
             <item>
              <widget class="QComboBox" name="team_comboBox"/>
             </item>
@@ -182,7 +190,7 @@ QComboBox {
        <property name="lineWidth">
         <number>4</number>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <layout class="QVBoxLayout" name="frame_3_layout">
         <property name="topMargin">
          <number>10</number>
         </property>
@@ -190,7 +198,7 @@ QComboBox {
          <number>10</number>
         </property>
         <item>
-         <layout class="QHBoxLayout" name="frame_3_col_1">
+         <layout class="QHBoxLayout" name="grid_2_frame_3_col_1">
           <item>
            <widget class="QPushButton" name="create_country_pushButton">
             <property name="text">
@@ -233,7 +241,7 @@ QComboBox {
     </layout>
    </item>
    <item row="2" column="1">
-    <layout class="QVBoxLayout" name="grid_2">
+    <layout class="QVBoxLayout" name="grid_3">
      <item>
       <widget class="QLabel" name="label_5">
        <property name="text">

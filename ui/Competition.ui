@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>Competition</class>
  <widget class="QWidget" name="Competition">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>1241</width>
-    <height>419</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>Competitie</string>
   </property>
