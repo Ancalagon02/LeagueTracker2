@@ -23,6 +23,9 @@ class CreateCompetition(QWidget):
         self.line = QFrame()
         self.line.setFrameShape(QFrame.Shape.HLine)
 
+        self.competition_name_button = QPushButton()
+        self.competition_name_button.setText("Competitie Naam")
+
         self.verticalspacer1 = QSpacerItem(17, 15, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.frame1 = QFrame()
@@ -36,9 +39,6 @@ class CreateCompetition(QWidget):
 
         self.country_combobox = QComboBox(self.frame1)
         self.country_combobox.addItems(["Belgie", "England"])
-
-        self.country_button = QPushButton(self.frame1)
-        self.country_button.setText("OK")
 
         self.frame2 = QFrame()
         self.frame2.setFrameShape(QFrame.Shape.Box)
@@ -93,7 +93,6 @@ class CreateCompetition(QWidget):
         self.grid1 = QHBoxLayout()
         self.grid2 = QVBoxLayout()
         self.grid2_col1 = QVBoxLayout(self.frame1)
-        self.grid2_col1_row1 = QHBoxLayout()
         self.grid2_col2 = QVBoxLayout(self.frame2)
         self.grid2_col2_row1 = QHBoxLayout()
         self.grid2_col3 = QHBoxLayout(self.frame3)
@@ -103,11 +102,8 @@ class CreateCompetition(QWidget):
         self.grid1.addWidget(self.competition_name_label)
         self.grid1.setStretch(1, 1)
 
-        self.grid2_col1_row1.addWidget(self.country_combobox)
-        self.grid2_col1_row1.addWidget(self.country_button)
-
         self.grid2_col1.addWidget(self.country_label)
-        self.grid2_col1.addLayout(self.grid2_col1_row1)
+        self.grid2_col1.addWidget(self.country_combobox)
 
         self.grid2_col2_row1.addWidget(self.team_combobox)
         self.grid2_col2_row1.addWidget(self.team_button)
@@ -118,6 +114,7 @@ class CreateCompetition(QWidget):
         self.grid2_col3.addWidget(self.create_country_button)
         self.grid2_col3.addWidget(self.create_team_button)
 
+        self.grid2.addWidget(self.competition_name_button)
         self.grid2.addItem(self.verticalspacer1)
         self.grid2.addWidget(self.frame1)
         self.grid2.addWidget(self.frame2)

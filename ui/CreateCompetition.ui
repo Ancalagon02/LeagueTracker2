@@ -50,6 +50,13 @@ QComboBox {
       <number>10</number>
      </property>
      <item>
+      <widget class="QPushButton" name="competition_name_button">
+       <property name="text">
+        <string>Competitie Naam</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="verticalSpacer_1">
        <property name="orientation">
         <enum>Qt::Orientation::Vertical</enum>
@@ -85,29 +92,18 @@ QComboBox {
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="grid_2_col_1_row_1">
+         <widget class="QComboBox" name="country_comboBox">
           <item>
-           <widget class="QComboBox" name="country_comboBox">
-            <item>
-             <property name="text">
-              <string>Belgie</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>England</string>
-             </property>
-            </item>
-           </widget>
+           <property name="text">
+            <string>Belgie</string>
+           </property>
           </item>
           <item>
-           <widget class="QPushButton" name="country_pushButton">
-            <property name="text">
-             <string>OK</string>
-            </property>
-           </widget>
+           <property name="text">
+            <string>England</string>
+           </property>
           </item>
-         </layout>
+         </widget>
         </item>
        </layout>
       </widget>
