@@ -14,19 +14,19 @@ def main():
     competition.show()
 
     mainwindow = MainWindow()
-    #mainwindow.show()
+    mainwindow.show()
 
     createcountry = CreateCountry()
-    #createcountry.show()
+    createcountry.show()
 
     createteam = CreateTeam()
-    #createteam.show()
+    createteam.show()
 
     match = Match()
-    #match.show()
+    match.show()
 
     createcompetition = CreateCompetition()
-    #createcompetition.show()
+    createcompetition.show()
 
     sys.exit(app.exec())
     
