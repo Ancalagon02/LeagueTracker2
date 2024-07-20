@@ -9,8 +9,24 @@ import sys
 
 def main():
     app = QApplication([])
-    window = Competition()
-    window.show()
+
+    competition = Competition()
+    competition.show()
+
+    mainwindow = MainWindow()
+    #mainwindow.show()
+
+    createcountry = CreateCountry()
+    #createcountry.show()
+
+    createteam = CreateTeam()
+    #createteam.show()
+
+    match = Match()
+    #match.show()
+
+    createcompetition = CreateCompetition()
+    #createcompetition.show()
 
     sys.exit(app.exec())
     

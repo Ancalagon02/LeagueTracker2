@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import (QHeaderView, QSizePolicy, QSpacerItem, QWidget, QLabel, QComboBox, QVBoxLayout, QHBoxLayout, QPushButton,
+from PyQt6.QtWidgets import (QSizePolicy, QSpacerItem, QWidget, QLabel, QComboBox, QVBoxLayout, QHBoxLayout, QPushButton,
 QTableWidget, QAbstractItemView, QFrame, QToolButton)
 
 
@@ -28,52 +28,66 @@ class Competition(QWidget):
         self.competition_tablewidget.setAlternatingRowColors(True)
         self.competition_tablewidget.setHorizontalHeaderLabels(["Ploeg", "P", "W", "L", "D", "F", "A", "GD", "Pts"])
 
-        self.label = QLabel()
-        self.label.setText("Datum")
-        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        
-        self.date_combobox = QComboBox()
+        self.frame1 = QFrame()
+        self.frame1.setFrameShape(QFrame.Shape.Box)
+        self.frame1.setFrameShadow(QFrame.Shadow.Plain)
+        self.frame1.setLineWidth(4)
 
-        self.up_button = QToolButton()
+        self.date_label = QLabel(self.frame1)
+        self.date_label.setText("Speeldag")
+        self.date_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.date_combobox = QComboBox(self.frame1)
+
+        self.up_button = QToolButton(self.frame1)
         self.up_button.setArrowType(Qt.ArrowType.UpArrow)
 
-        self.down_button = QToolButton()
+        self.down_button = QToolButton(self.frame1)
         self.down_button.setArrowType(Qt.ArrowType.UpArrow)
 
-        self.match_button = QPushButton()
+        self.frame2 = QFrame()
+        self.frame2.setFrameShape(QFrame.Shape.Box)
+        self.frame2.setFrameShadow(QFrame.Shadow.Plain)
+        self.frame2.setLineWidth(4)
+
+        self.match_button = QPushButton(self.frame2)
         self.match_button.setText("Match")
 
-        self.verticalspacer = QSpacerItem(20, 18, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        self.verticalspacer = QSpacerItem(20, 81, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.go_back_button = QPushButton()
+        self.go_back_button = QPushButton(self.frame2)
         self.go_back_button.setText("Ga Terug")
-
-        self.exit_button = QPushButton()
-        self.exit_button.setText("Exit")
-
+        
+        self.exit_putton = QPushButton(self.frame2)
+        self.exit_putton.setText("Exit")
 
 
     def set_layout(self):
         self.master_layout = QHBoxLayout()
-        self.col1 = QVBoxLayout()
-        self.col2 = QHBoxLayout()
-        self.col2_row1 = QVBoxLayout()
-        self.col2_row2 = QVBoxLayout()
+        self.row2 = QVBoxLayout()
+        self.row2_col1 = QVBoxLayout(self.frame1)
+        self.row2_col1_row1 = QHBoxLayout()
+        self.row2_col1_row2 = QVBoxLayout()
+        self.row2_col2 = QVBoxLayout(self.frame2)
 
-        self.col2_row1.addWidget(self.date_combobox)
-        self.col2_row2.addWidget(self.up_button)
-        self.col2_row2.addWidget(self.down_button)
-        self.col2.addLayout(self.col2_row1)
-        self.col2.addLayout(self.col2_row2)
+        self.row2_col1_row2.addWidget(self.up_button)
+        self.row2_col1_row2.addWidget(self.down_button)
 
-        self.col1.addWidget(self.label)
-        self.col1.addLayout(self.col2)
-        self.col1.addWidget(self.match_button)
-        self.col1.addItem(self.verticalspacer)
-        self.col1.addWidget(self.go_back_button)
-        self.col1.addWidget(self.exit_button)
+        self.row2_col1_row1.addWidget(self.date_combobox)
+        self.row2_col1_row1.addLayout(self.row2_col1_row2)
+        
+        self.row2_col1.addWidget(self.date_label)
+        self.row2_col1.addLayout(self.row2_col1_row1)
+
+        self.row2_col2.addWidget(self.match_button)
+        self.row2_col2.addItem(self.verticalspacer)
+        self.row2_col2.addWidget(self.go_back_button)
+        self.row2_col2.addWidget(self.exit_putton)
+
+        self.row2.addWidget(self.frame1)
+        self.row2.addWidget(self.frame2)
 
         self.master_layout.addWidget(self.competition_tablewidget)
-        self.master_layout.addLayout(self.col1)
+        self.master_layout.addLayout(self.row2)
 
         self.setLayout(self.master_layout)
