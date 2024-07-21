@@ -29,6 +29,20 @@ class Competition(QWidget):
         self.competition_tablewidget.setAlternatingRowColors(True)
         self.competition_tablewidget.setHorizontalHeaderLabels(["Ploeg", "P", "W", "L", "D", "F", "A", "GD", "Pts"])
 
+        self.header = self.competition_tablewidget.horizontalHeader()
+        self.row = self.competition_tablewidget.verticalHeader()
+
+        if self.header is not None and self.row is not None:
+            self.header.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
+            self.header.setFrameShape(QFrame.Shape.NoFrame)
+            self.header.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+            self.header.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+            self.row.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
+            self.row.setFrameShape(QFrame.Shape.NoFrame)
+            self.row.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+            self.row.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
+
+
         self.frame1 = QFrame()
         self.frame1.setFrameShape(QFrame.Shape.Box)
         self.frame1.setFrameShadow(QFrame.Shadow.Plain)

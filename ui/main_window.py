@@ -24,6 +24,7 @@ class MainWindow(QWidget):
         self.horizontal_spacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.create_competition_button = QPushButton()
+        self.create_competition_button.setObjectName("main-button")
         self.create_competition_button.setText("Maak Competitie")
         self.create_competition_button.clicked.connect(self.open_create_competition)
 
@@ -44,6 +45,7 @@ class MainWindow(QWidget):
         self.horizontal_spacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.start_competition_button = QPushButton()
+        self.start_competition_button.setObjectName("main-button")
         self.start_competition_button.setText("Start Competitie")
 
         self.second_window = None

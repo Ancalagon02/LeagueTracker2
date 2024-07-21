@@ -4,8 +4,13 @@ from ui.create_competition import CreateCompetition
 from ui.competition import Competition
 import sys
 
+file = "style.css"
+
 def main():
     app = QApplication([])
+
+    with open(file, "r") as fh:
+        app.setStyleSheet(fh.read())
 
     competition = Competition()
     competition.show()

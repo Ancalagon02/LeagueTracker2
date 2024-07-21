@@ -31,6 +31,7 @@ class Matches(QWidget):
 
         self.versus_label = QLabel()
         self.versus_label.setText("VS")
+        self.versus_label.setObjectName("versus")
         self.versus_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.horizontal_spacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
