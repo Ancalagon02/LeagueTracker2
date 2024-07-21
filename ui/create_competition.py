@@ -1,9 +1,10 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QLabel, QWidget, QPushButton, QFrame, QGridLayout, QVBoxLayout, QHBoxLayout,
 QSizePolicy, QSpacerItem, QComboBox, QListWidget, QAbstractItemView)
+from .create_dialog import CreateDialog
 
 
-class CreateCompetition(QWidget):
+class CreateCompetition(CreateDialog, QWidget):
     def __init__(self):
         super().__init__()
 
@@ -25,6 +26,7 @@ class CreateCompetition(QWidget):
 
         self.competition_name_button = QPushButton()
         self.competition_name_button.setText("Competitie Naam")
+        self.competition_name_button.clicked.connect(self.open_create_competition_name_dialog)
 
         self.verticalspacer1 = QSpacerItem(17, 15, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -61,9 +63,11 @@ class CreateCompetition(QWidget):
 
         self.create_country_button = QPushButton(self.frame3)
         self.create_country_button.setText("Maak Land")
+        self.create_country_button.clicked.connect(self.open_create_country_dialog)
 
         self.create_team_button = QPushButton(self.frame3)
         self.create_team_button.setText("Maak Ploeg")
+        self.create_team_button.clicked.connect(self.open_create_team_dialog)
 
         self.verticalspacer2 = QSpacerItem(17, 16, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -131,3 +135,30 @@ class CreateCompetition(QWidget):
         self.master_layout.addWidget(self.frame4,       3, 1, 1, 1)
 
         self.setLayout(self.master_layout)
+
+
+    def open_create_country_dialog(self):
+        dialog = CreateDialog()
+        dialog.setWindowTitle("Maak Land")
+
+        dialog.label.setText("Land Naam")
+
+        dialog.exec()
+
+
+    def open_create_team_dialog(self):
+        dialog = CreateDialog()
+        dialog.setWindowTitle("Maak Team")
+
+        dialog.label.setText("Team Naam")
+
+        dialog.exec()
+
+
+    def open_create_competition_name_dialog(self):
+        dialog = CreateDialog()
+        dialog.setWindowTitle("Create Competitie")
+
+        dialog.label.setText("Competitie Naam")
+
+        dialog.exec()
