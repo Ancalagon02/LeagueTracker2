@@ -3,7 +3,7 @@ from PyQt6.QtWidgets import (QWidget, QLabel, QComboBox, QSpinBox, QComboBox, QS
 QHBoxLayout, QDateEdit, QSizePolicy, QPushButton)
 
 
-class Match(QWidget):
+class Matches(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -48,6 +48,7 @@ class Match(QWidget):
 
         self.go_back_button = QPushButton()
         self.go_back_button.setText("Go Back")
+        self.go_back_button.clicked.connect(self.close)
 
 
     def set_layout(self):

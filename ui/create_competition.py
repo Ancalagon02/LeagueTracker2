@@ -2,9 +2,10 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QLabel, QWidget, QPushButton, QFrame, QGridLayout, QVBoxLayout, QHBoxLayout,
 QSizePolicy, QSpacerItem, QComboBox, QListWidget, QAbstractItemView)
 from .create_dialog import CreateDialog
+from ui import main_window
 
 
-class CreateCompetition(CreateDialog, QWidget):
+class CreateCompetition(QWidget):
     def __init__(self):
         super().__init__()
 
@@ -71,6 +72,10 @@ class CreateCompetition(CreateDialog, QWidget):
 
         self.verticalspacer2 = QSpacerItem(17, 16, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
+        self.go_back_button = QPushButton()
+        self.go_back_button.setText("Ga Terug")
+        self.go_back_button.clicked.connect(self.open_main_window)
+
         self.create_competition_button = QPushButton()
         self.create_competition_button.setText("Maak Competitie")
 
@@ -91,6 +96,8 @@ class CreateCompetition(CreateDialog, QWidget):
         self.team_listwidget.setDefaultDropAction(Qt.DropAction.IgnoreAction)
         self.team_listwidget.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
 
+        self.second_window = None
+
 
     def set_layout(self):
         self.master_layout = QGridLayout()
@@ -100,6 +107,7 @@ class CreateCompetition(CreateDialog, QWidget):
         self.grid2_col2 = QVBoxLayout(self.frame2)
         self.grid2_col2_row1 = QHBoxLayout()
         self.grid2_col3 = QHBoxLayout(self.frame3)
+        self.grid2_col4 = QHBoxLayout()
         self.grid3 = QVBoxLayout(self.frame4)
 
         self.grid1.addWidget(self.competition_label)
@@ -118,13 +126,16 @@ class CreateCompetition(CreateDialog, QWidget):
         self.grid2_col3.addWidget(self.create_country_button)
         self.grid2_col3.addWidget(self.create_team_button)
 
+        self.grid2_col4.addWidget(self.go_back_button)
+        self.grid2_col4.addWidget(self.create_competition_button)
+
         self.grid2.addWidget(self.competition_name_button)
         self.grid2.addItem(self.verticalspacer1)
         self.grid2.addWidget(self.frame1)
         self.grid2.addWidget(self.frame2)
         self.grid2.addWidget(self.frame3)
         self.grid2.addItem(self.verticalspacer2)
-        self.grid2.addWidget(self.create_competition_button)
+        self.grid2.addLayout(self.grid2_col4)
 
         self.grid3.addWidget(self.teams_label)
         self.grid3.addWidget(self.team_listwidget)
@@ -135,6 +146,17 @@ class CreateCompetition(CreateDialog, QWidget):
         self.master_layout.addWidget(self.frame4,       3, 1, 1, 1)
 
         self.setLayout(self.master_layout)
+
+
+    def open_main_window(self):
+        self.close()
+
+        if self.second_window is not None:
+            self.second_window = None
+
+        if self.second_window is None:
+            self.second_window = main_window.MainWindow()
+        self.second_window.show()
 
 
     def open_create_country_dialog(self):

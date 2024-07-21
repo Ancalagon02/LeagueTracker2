@@ -1,6 +1,7 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QSizePolicy, QSpacerItem, QWidget, QLabel, QComboBox, QVBoxLayout, QHBoxLayout, QPushButton,
 QTableWidget, QAbstractItemView, QFrame, QToolButton)
+from ui import matches, main_window
 
 
 class Competition(QWidget):
@@ -52,14 +53,19 @@ class Competition(QWidget):
 
         self.match_button = QPushButton(self.frame2)
         self.match_button.setText("Match")
+        self.match_button.clicked.connect(self.open_match)
 
         self.verticalspacer = QSpacerItem(20, 81, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.go_back_button = QPushButton(self.frame2)
         self.go_back_button.setText("Ga Terug")
+        self.go_back_button.clicked.connect(self.open_main_window)
         
         self.exit_putton = QPushButton(self.frame2)
         self.exit_putton.setText("Exit")
+        self.exit_putton.clicked.connect(self.close)
+
+        self.second_window = None
 
 
     def set_layout(self):
@@ -91,3 +97,23 @@ class Competition(QWidget):
         self.master_layout.addLayout(self.row2)
 
         self.setLayout(self.master_layout)
+
+
+    def open_match(self):
+        if self.second_window is not None:
+            self.second_window = None
+
+        if self.second_window is None:
+            self.second_window = matches.Matches()
+        self.second_window.show()
+
+
+    def open_main_window(self):
+        self.close()
+
+        if self.second_window is not None:
+            self.second_window = None
+
+        if self.second_window is None:
+            self.second_window = main_window.MainWindow()
+        self.second_window.show()

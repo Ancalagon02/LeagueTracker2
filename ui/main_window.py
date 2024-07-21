@@ -1,6 +1,7 @@
 from PyQt6.QtCore import Qt 
 from PyQt6.QtWidgets import (QWidget, QLabel, QComboBox, QSizePolicy, QSpacerItem, QPushButton, QFrame, QListWidget,
 QAbstractScrollArea, QAbstractItemView, QHBoxLayout, QVBoxLayout)
+from ui import create_competition
 
 
 class MainWindow(QWidget):
@@ -24,6 +25,7 @@ class MainWindow(QWidget):
 
         self.create_competition_button = QPushButton()
         self.create_competition_button.setText("Maak Competitie")
+        self.create_competition_button.clicked.connect(self.open_create_competition)
 
         self.competition_listwidget = QListWidget()
         self.competition_listwidget.setFrameShape(QFrame.Shape.NoFrame)
@@ -43,6 +45,8 @@ class MainWindow(QWidget):
 
         self.start_competition_button = QPushButton()
         self.start_competition_button.setText("Start Competitie")
+
+        self.second_window = None
 
 
     def set_layout(self):
@@ -65,3 +69,14 @@ class MainWindow(QWidget):
         self.master_layout.addLayout(self.col2)
 
         self.setLayout(self.master_layout)
+
+
+    def open_create_competition(self):
+        self.close()
+
+        if self.second_window is not None:
+            self.second_window = None
+
+        if self.second_window is None:
+            self.second_window = create_competition.CreateCompetition()
+        self.second_window.show()
