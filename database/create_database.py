@@ -1,5 +1,7 @@
 import sqlite3
 
+db_file = "leaguetracker.db"
+
 def create_table():
     sql_statement = [
         """CREATE TABLE IF NOT EXISTS country (
@@ -35,13 +37,10 @@ def create_table():
             matches_id INTEGER NOT NULL,
             FOREIGN KEY (league_id) REFERENCES league(id),
             FOREIGN KEY (matches_id) REFERENCES matches(id)
-        );""",
-        """INSERT INTO country (name)
-            VALUES ('Belgie'), ('England')
-        """]
+        );"""
 
     try:
-        with sqlite3.connect("leaguetracker.db") as conn:
+        with sqlite3.connect(db_file) as conn:
             cursor = conn.cursor()
             for statement in sql_statement:
                 cursor.execute(statement)

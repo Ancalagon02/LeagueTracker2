@@ -1,6 +1,8 @@
 from PyQt6.QtCore import Qt 
 from PyQt6.QtWidgets import (QWidget, QLabel, QComboBox, QSizePolicy, QSpacerItem, QPushButton, QFrame, QListWidget,
 QAbstractScrollArea, QAbstractItemView, QHBoxLayout, QVBoxLayout)
+import database.data as data
+from models import Country
 
 
 class MainWindow(QWidget):
@@ -18,6 +20,7 @@ class MainWindow(QWidget):
         self.label.setText("Selecteer Land")
 
         self.country_combobox = QComboBox()
+        self.set_combobox(self.country_combobox)
 
         self.horizontal_spacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -66,3 +69,9 @@ class MainWindow(QWidget):
         self.master_layout.addLayout(self.col2)
 
         self.setLayout(self.master_layout)
+
+
+    def set_combobox(self, combox: QComboBox):
+        countries: list[Country] = data.load_countrys()
+        for x in countries:
+            combox.addItem(x.name)

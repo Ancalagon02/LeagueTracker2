@@ -1,13 +1,14 @@
 import sqlite3
 from models import Country
 
+db_file = "leaguetracker.db"
 
-def load_countrys(sql_file) -> list[Country]:
+def load_countrys() -> list[Country]:
     sql = """ SELECT name
               FROM country """
     output: list[Country] = []
     try:
-        with sqlite3.connect(sql_file) as conn:
+        with sqlite3.connect(db_file) as conn:
             cur = conn.cursor()
             cur.execute(sql)
             rows = cur.fetchall()
