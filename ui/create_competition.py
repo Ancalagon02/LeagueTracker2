@@ -1,6 +1,8 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QLabel, QWidget, QPushButton, QFrame, QGridLayout, QVBoxLayout, QHBoxLayout,
 QSizePolicy, QSpacerItem, QComboBox, QListWidget, QAbstractItemView)
+import ui.main_window as mw
+import state as state
 
 
 class CreateCompetition(QWidget):
@@ -14,6 +16,8 @@ class CreateCompetition(QWidget):
 
 
     def init_ui(self):
+        self.second_window = None
+
         self.competition_label = QLabel()
         self.competition_label.setText("Competitie Naam:")
 
@@ -38,6 +42,7 @@ class CreateCompetition(QWidget):
         self.country_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.country_combobox = QComboBox(self.frame1)
+        self.country_combobox.addItems(state.get_countries())
 
         self.frame2 = QFrame()
         self.frame2.setFrameShape(QFrame.Shape.Box)
@@ -68,6 +73,7 @@ class CreateCompetition(QWidget):
 
         self.go_back_button = QPushButton()
         self.go_back_button.setText("Ga Terug")
+        self.go_back_button.clicked.connect(self.open_main_window)
 
         self.create_competition_button = QPushButton()
         self.create_competition_button.setText("Maak Competitie")
@@ -137,3 +143,13 @@ class CreateCompetition(QWidget):
         self.master_layout.addWidget(self.frame4,       3, 1, 1, 1)
 
         self.setLayout(self.master_layout)
+
+
+    def open_main_window(self):
+        if self.second_window is not None:
+            self.second_window = None
+
+        if self.second_window is None:
+            self.second_window = mw.MainWindow()
+            self.second_window.show()
+            self.close()

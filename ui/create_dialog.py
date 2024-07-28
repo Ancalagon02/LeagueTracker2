@@ -13,7 +13,7 @@ class CreateDialog(QDialog):
         self.label = QLabel()
         self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.country_lineedit = QLineEdit()
+        self.line_edit = QLineEdit()
 
         self.buttonbox = QDialogButtonBox()
         self.buttonbox.setOrientation(Qt.Orientation.Horizontal)
@@ -31,7 +31,7 @@ class CreateDialog(QDialog):
         self.master_layout = QVBoxLayout()
 
         self.master_layout.addWidget(self.label)
-        self.master_layout.addWidget(self.country_lineedit)
+        self.master_layout.addWidget(self.line_edit)
         self.master_layout.addWidget(self.buttonbox)
 
         self.setLayout(self.master_layout)

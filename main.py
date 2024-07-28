@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QApplication
 from ui.main_window import MainWindow
 import sys
-import state as state
+import database.data as data
 
 file = "style.css"
 

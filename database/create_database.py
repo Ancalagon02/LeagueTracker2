@@ -37,7 +37,7 @@ def create_table():
             matches_id INTEGER NOT NULL,
             FOREIGN KEY (league_id) REFERENCES league(id),
             FOREIGN KEY (matches_id) REFERENCES matches(id)
-        );"""
+        );"""]
 
     try:
         with sqlite3.connect(db_file) as conn:

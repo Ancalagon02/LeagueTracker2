@@ -1,9 +1,12 @@
+from models import Country
+import database.data as data
 
-from ui.create_competition import CreateCompetition
-from ui.main_window import MainWindow
 
+def get_countries():
+    output: list = []
+    countries: list[Country] = data.load_countrys()
 
-def init_mainwindow(window: MainWindow):
-    window.show()
-    test = CreateCompetition()
-    test.show()
+    for country in countries:
+        output.append(country.name)
+
+    return output

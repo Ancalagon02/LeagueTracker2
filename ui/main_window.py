@@ -1,9 +1,8 @@
 from PyQt6.QtCore import Qt 
 from PyQt6.QtWidgets import (QWidget, QLabel, QComboBox, QSizePolicy, QSpacerItem, QPushButton, QFrame, QListWidget,
 QAbstractScrollArea, QAbstractItemView, QHBoxLayout, QVBoxLayout)
-import database.data as data
-from models import Country
-from ui.create_competition import CreateCompetition
+import state as state
+import ui.create_competition as cp
 
 
 class MainWindow(QWidget):
@@ -23,14 +22,14 @@ class MainWindow(QWidget):
         self.label.setText("Selecteer Land")
 
         self.country_combobox = QComboBox()
-        self.set_combobox(self.country_combobox)
+        self.country_combobox.addItems(state.get_countries())
 
         self.horizontal_spacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.create_competition_button = QPushButton()
         self.create_competition_button.setObjectName("main-button")
         self.create_competition_button.setText("Maak Competitie")
-        self.create_competition_button.clicked.connect(self.open_create_competition)
+        self.create_competition_button.clicked.connect(self.open_main_window)
 
         self.competition_listwidget = QListWidget()
         self.competition_listwidget.setFrameShape(QFrame.Shape.NoFrame)
@@ -75,17 +74,11 @@ class MainWindow(QWidget):
         self.setLayout(self.master_layout)
 
 
-    def set_combobox(self, combox: QComboBox):
-        countries: list[Country] = data.load_countrys()
-        for x in countries:
-            combox.addItem(x.name)
-
-
-    def open_create_competition(self):
+    def open_main_window(self):
         if self.second_window is not None:
-            self.second_window = None 
+            self.second_window = None
 
         if self.second_window is None:
-            self.second_window = CreateCompetition()
+            self.second_window = cp.CreateCompetition()
             self.second_window.show()
             self.close()
