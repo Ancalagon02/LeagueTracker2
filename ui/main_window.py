@@ -22,7 +22,7 @@ class MainWindow(QWidget):
         self.label.setText("Selecteer Land")
 
         self.country_combobox = QComboBox()
-        self.country_combobox.addItems(state.get_countries())
+        self.country_combobox.addItems(state.load_countries())
 
         self.horizontal_spacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -53,25 +53,25 @@ class MainWindow(QWidget):
 
 
     def set_layout(self):
-        self.master_layout = QVBoxLayout()
-        self.col1 = QHBoxLayout()
-        self.col2 = QHBoxLayout()
+        master_layout = QVBoxLayout()
+        col1 = QHBoxLayout()
+        col2 = QHBoxLayout()
 
-        self.col1.addWidget(self.label)
-        self.col1.addWidget(self.country_combobox)
-        self.col1.addItem(self.horizontal_spacer)
-        self.col1.addWidget(self.create_competition_button)
+        col1.addWidget(self.label)
+        col1.addWidget(self.country_combobox)
+        col1.addItem(self.horizontal_spacer)
+        col1.addWidget(self.create_competition_button)
 
-        self.col2.addWidget(self.label_2)
-        self.col2.addWidget(self.competition_name_label)
-        self.col2.addItem(self.horizontal_spacer_2)
-        self.col2.addWidget(self.start_competition_button)
+        col2.addWidget(self.label_2)
+        col2.addWidget(self.competition_name_label)
+        col2.addItem(self.horizontal_spacer_2)
+        col2.addWidget(self.start_competition_button)
 
-        self.master_layout.addLayout(self.col1)
-        self.master_layout.addWidget(self.competition_listwidget)
-        self.master_layout.addLayout(self.col2)
+        master_layout.addLayout(col1)
+        master_layout.addWidget(self.competition_listwidget)
+        master_layout.addLayout(col2)
 
-        self.setLayout(self.master_layout)
+        self.setLayout(master_layout)
 
 
     def open_main_window(self):

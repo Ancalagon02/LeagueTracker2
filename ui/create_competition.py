@@ -29,6 +29,7 @@ class CreateCompetition(QWidget):
 
         self.competition_name_button = QPushButton()
         self.competition_name_button.setText("Competitie Naam")
+        self.competition_name_button.clicked.connect(self.open_comp_name_dialog)
 
         self.verticalspacer1 = QSpacerItem(17, 15, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -42,7 +43,9 @@ class CreateCompetition(QWidget):
         self.country_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.country_combobox = QComboBox(self.frame1)
-        self.country_combobox.addItems(state.get_countries())
+        self.country_combobox.addItems(state.load_countries())
+        self.country = self.country_combobox.currentText()
+        self.country_combobox.currentTextChanged.connect(self.changed_country)
 
         self.frame2 = QFrame()
         self.frame2.setFrameShape(QFrame.Shape.Box)
@@ -54,6 +57,7 @@ class CreateCompetition(QWidget):
         self.team_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.team_combobox = QComboBox(self.frame2)
+        self.team_combobox.addItems(state.load_team(state.load_country_id(self.country)))
 
         self.team_button = QPushButton(self.frame2)
         self.team_button.setText("OK")
@@ -65,9 +69,11 @@ class CreateCompetition(QWidget):
 
         self.create_country_button = QPushButton(self.frame3)
         self.create_country_button.setText("Maak Land")
+        self.create_country_button.clicked.connect(self.open_create_country)
 
         self.create_team_button = QPushButton(self.frame3)
         self.create_team_button.setText("Maak Ploeg")
+        self.create_team_button.clicked.connect(self.open_create_team_dialog)
 
         self.verticalspacer2 = QSpacerItem(17, 16, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -97,53 +103,52 @@ class CreateCompetition(QWidget):
 
 
     def set_layout(self):
-        self.master_layout = QGridLayout()
-        self.grid1 = QHBoxLayout()
-        self.grid2 = QVBoxLayout()
-        self.grid2_col1 = QVBoxLayout(self.frame1)
-        self.grid2_col2 = QVBoxLayout(self.frame2)
-        self.grid2_col2_row1 = QHBoxLayout()
-        self.grid2_col3 = QHBoxLayout(self.frame3)
-        self.grid2_col4 = QHBoxLayout()
-        self.grid3 = QVBoxLayout(self.frame4)
+        master_layout = QGridLayout()
+        grid1 = QHBoxLayout()
+        grid2 = QVBoxLayout()
+        grid2_col1 = QVBoxLayout(self.frame1)
+        grid2_col2 = QVBoxLayout(self.frame2)
+        grid2_col2_row1 = QHBoxLayout()
+        grid2_col3 = QHBoxLayout(self.frame3)
+        grid2_col4 = QHBoxLayout()
+        grid3 = QVBoxLayout(self.frame4)
 
-        self.grid1.addWidget(self.competition_label)
-        self.grid1.addWidget(self.competition_name_label)
-        self.grid1.setStretch(1, 1)
+        grid1.addWidget(self.competition_label)
+        grid1.addWidget(self.competition_name_label)
+        grid1.setStretch(1, 1)
 
-        self.grid2_col1.addWidget(self.country_label)
-        self.grid2_col1.addWidget(self.country_combobox)
+        grid2_col1.addWidget(self.country_label)
+        grid2_col1.addWidget(self.country_combobox)
 
-        self.grid2_col2_row1.addWidget(self.team_combobox)
-        self.grid2_col2_row1.addWidget(self.team_button)
+        grid2_col2_row1.addWidget(self.team_combobox)
+        grid2_col2_row1.addWidget(self.team_button)
 
-        self.grid2_col2.addWidget(self.team_label)
-        self.grid2_col2.addLayout(self.grid2_col2_row1)
+        grid2_col2.addWidget(self.team_label)
+        grid2_col2.addLayout(grid2_col2_row1)
 
-        self.grid2_col3.addWidget(self.create_country_button)
-        self.grid2_col3.addWidget(self.create_team_button)
+        grid2_col3.addWidget(self.create_country_button)
+        grid2_col3.addWidget(self.create_team_button)
 
-        self.grid2_col4.addWidget(self.go_back_button)
-        self.grid2_col4.addWidget(self.create_competition_button)
+        grid2_col4.addWidget(self.go_back_button)
+        grid2_col4.addWidget(self.create_competition_button)
 
-        self.grid2.addWidget(self.competition_name_button)
-        self.grid2.addItem(self.verticalspacer1)
-        self.grid2.addWidget(self.frame1)
-        self.grid2.addWidget(self.frame2)
-        self.grid2.addWidget(self.frame3)
-        self.grid2.addItem(self.verticalspacer2)
-        self.grid2.addLayout(self.grid2_col4)
+        grid2.addWidget(self.competition_name_button)
+        grid2.addItem(self.verticalspacer1)
+        grid2.addWidget(self.frame1)
+        grid2.addWidget(self.frame2)
+        grid2.addWidget(self.frame3)
+        grid2.addItem(self.verticalspacer2)
+        grid2.addLayout(grid2_col4)
 
-        self.grid3.addWidget(self.teams_label)
-        self.grid3.addWidget(self.team_listwidget)
+        grid3.addWidget(self.teams_label)
+        grid3.addWidget(self.team_listwidget)
 
-        self.master_layout.addLayout(self.grid1,        0, 0, 1, 2)
-        self.master_layout.addWidget(self.line,         1, 0, 1, 2)
-        self.master_layout.addLayout(self.grid2,        2, 0, 2, 1)
-        self.master_layout.addWidget(self.frame4,       3, 1, 1, 1)
+        master_layout.addLayout(grid1,             0, 0, 1, 2)
+        master_layout.addWidget(self.line,         1, 0, 1, 2)
+        master_layout.addLayout(grid2,             2, 0, 2, 1)
+        master_layout.addWidget(self.frame4,       3, 1, 1, 1)
 
-        self.setLayout(self.master_layout)
-
+        self.setLayout(master_layout)
 
     def open_main_window(self):
         if self.second_window is not None:
@@ -153,3 +158,52 @@ class CreateCompetition(QWidget):
             self.second_window = mw.MainWindow()
             self.second_window.show()
             self.close()
+
+
+    def open_comp_name_dialog(self):
+        window = state.init_dialog("Competitie Dialog", "Competitie Naam")
+        if window.aproved is not None:
+            window.aproved.clicked.connect(lambda: self.set_name_label(window))
+        window.exec()
+
+
+    def set_name_label(self, window):
+        if state.checked_text(window):
+            self.competition_name_label.setText(window.line_edit.text())
+            window.close()
+
+    
+    def open_create_country(self):
+        window = state.init_dialog("Maak Land", "Land Naam")
+        if window.aproved is not None:
+            window.aproved.clicked.connect(lambda: self.create_country(window))
+        window.exec()
+
+
+    def create_country(self, window):
+        if state.checked_text(window):
+            state.create_country(window.line_edit.text())
+            self.country_combobox.clear()
+            self.country_combobox.addItems(state.load_countries())
+            window.close()
+
+
+    def changed_country(self):
+        self.country = self.country_combobox.currentText()
+        self.team_combobox.clear()
+        self.team_combobox.addItems(state.load_team(state.load_country_id(self.country)))
+
+
+    def open_create_team_dialog(self):
+        window = state.init_dialog("Ploeg Dialog", "Ploeg Naam")
+        if window.aproved is not None:
+            window.aproved.clicked.connect(lambda: self.create_team(window))
+        window.exec()
+
+
+    def create_team(self, window):
+        if state.checked_text(window):
+            state.create_team(state.load_country_id(self.country), window.line_edit.text())
+            self.team_combobox.clear()
+            self.team_combobox.addItems(state.load_team(state.load_country_id(self.country)))
+            window.close()
