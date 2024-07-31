@@ -1,8 +1,6 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QLabel, QWidget, QPushButton, QFrame, QGridLayout, QVBoxLayout, QHBoxLayout,
 QSizePolicy, QSpacerItem, QComboBox, QListWidget, QAbstractItemView)
-import ui.main_window as mw
-import state as state
 
 
 class CreateCompetition(QWidget):
@@ -29,7 +27,6 @@ class CreateCompetition(QWidget):
 
         self.competition_name_button = QPushButton()
         self.competition_name_button.setText("Competitie Naam")
-        self.competition_name_button.clicked.connect(self.open_comp_name_dialog)
 
         self.verticalspacer1 = QSpacerItem(17, 15, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -43,9 +40,6 @@ class CreateCompetition(QWidget):
         self.country_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.country_combobox = QComboBox(self.frame1)
-        self.country_combobox.addItems(state.load_countries())
-        self.country = self.country_combobox.currentText()
-        self.country_combobox.currentTextChanged.connect(self.changed_country)
 
         self.frame2 = QFrame()
         self.frame2.setFrameShape(QFrame.Shape.Box)
@@ -57,7 +51,6 @@ class CreateCompetition(QWidget):
         self.team_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.team_combobox = QComboBox(self.frame2)
-        self.team_combobox.addItems(state.load_team(state.load_country_id(self.country)))
 
         self.team_button = QPushButton(self.frame2)
         self.team_button.setText("OK")
@@ -69,17 +62,14 @@ class CreateCompetition(QWidget):
 
         self.create_country_button = QPushButton(self.frame3)
         self.create_country_button.setText("Maak Land")
-        self.create_country_button.clicked.connect(self.open_create_country)
 
         self.create_team_button = QPushButton(self.frame3)
         self.create_team_button.setText("Maak Ploeg")
-        self.create_team_button.clicked.connect(self.open_create_team_dialog)
 
         self.verticalspacer2 = QSpacerItem(17, 16, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
         self.go_back_button = QPushButton()
         self.go_back_button.setText("Ga Terug")
-        self.go_back_button.clicked.connect(self.open_main_window)
 
         self.create_competition_button = QPushButton()
         self.create_competition_button.setText("Maak Competitie")
@@ -149,61 +139,3 @@ class CreateCompetition(QWidget):
         master_layout.addWidget(self.frame4,       3, 1, 1, 1)
 
         self.setLayout(master_layout)
-
-    def open_main_window(self):
-        if self.second_window is not None:
-            self.second_window = None
-
-        if self.second_window is None:
-            self.second_window = mw.MainWindow()
-            self.second_window.show()
-            self.close()
-
-
-    def open_comp_name_dialog(self):
-        window = state.init_dialog("Competitie Dialog", "Competitie Naam")
-        if window.aproved is not None:
-            window.aproved.clicked.connect(lambda: self.set_name_label(window))
-        window.exec()
-
-
-    def set_name_label(self, window):
-        if state.checked_text(window):
-            self.competition_name_label.setText(window.line_edit.text())
-            window.close()
-
-    
-    def open_create_country(self):
-        window = state.init_dialog("Maak Land", "Land Naam")
-        if window.aproved is not None:
-            window.aproved.clicked.connect(lambda: self.create_country(window))
-        window.exec()
-
-
-    def create_country(self, window):
-        if state.checked_text(window):
-            state.create_country(window.line_edit.text())
-            self.country_combobox.clear()
-            self.country_combobox.addItems(state.load_countries())
-            window.close()
-
-
-    def changed_country(self):
-        self.country = self.country_combobox.currentText()
-        self.team_combobox.clear()
-        self.team_combobox.addItems(state.load_team(state.load_country_id(self.country)))
-
-
-    def open_create_team_dialog(self):
-        window = state.init_dialog("Ploeg Dialog", "Ploeg Naam")
-        if window.aproved is not None:
-            window.aproved.clicked.connect(lambda: self.create_team(window))
-        window.exec()
-
-
-    def create_team(self, window):
-        if state.checked_text(window):
-            state.create_team(state.load_country_id(self.country), window.line_edit.text())
-            self.team_combobox.clear()
-            self.team_combobox.addItems(state.load_team(state.load_country_id(self.country)))
-            window.close()
