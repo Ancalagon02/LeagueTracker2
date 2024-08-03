@@ -19,7 +19,7 @@ class MainWindow(QWidget):
         self.label.setText("Selecteer Land")
 
         self.country_combobox = QComboBox()
-        data.map_country_combobox(self.country_combobox)
+        self.country_combobox.addItems(data.map_countries())
 
         self.horizontal_spacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 

@@ -1,5 +1,6 @@
 from abc import ABC
 import sqlite3
+from typing import overload
 
 class CreateDatabase(ABC):
     def __init__(self) -> None:
@@ -15,7 +16,7 @@ class CreateDatabase(ABC):
             """CREATE TABLE IF NOT EXISTS club (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 country_id INTEGER NOT NULL,
-                name TEXT NOT NULL UNIQUE,
+                name TEXT NOT NULL,
                 FOREIGN KEY (country_id) REFERENCES country(id)
             );""",
             """CREATE TABLE IF NOT EXISTS league (
@@ -24,7 +25,7 @@ class CreateDatabase(ABC):
                 name TEXT NOT NULL UNIQUE,
                 FOREIGN KEY (country_id) REFERENCES country(id)
             );""",
-            """CREATE TABLE IF NOT EXISTS matches (
+            """CREATE TABLE IF NOT EXISTS match (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 club_id INTEGER NOT NULL,
                 data TEXT NOT NULL,
@@ -38,9 +39,16 @@ class CreateDatabase(ABC):
             """CREATE TABLE IF NOT EXISTS competition (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 league_id INTEGER NOT NULL,
-                matches_id INTEGER NOT NULL,
+                club_id INTEGER NOT NULL,
                 FOREIGN KEY (league_id) REFERENCES league(id),
-                FOREIGN KEY (matches_id) REFERENCES matches(id)
+                FOREIGN KEY (club_id) REFERENCES club(id)
+            );""",
+            """CREATE TABLE IF NOT EXISTS matches (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                competition_id INTEGER NOT NULL,
+                match_id INTEGER NOT NULL,
+                FOREIGN KEY (competition_id) REFERENCES competition(id),
+                FOREIGN KEY (match_id) REFERENCES match(id)
             );"""]
 
         try:
@@ -53,3 +61,37 @@ class CreateDatabase(ABC):
 
         except sqlite3.Error as e:
             print(e)
+
+
+class DBConnections(CreateDatabase, ABC):
+    def execute(self, sql: str, data: tuple) -> None:
+        try:
+            with sqlite3.connect(self.db_file) as conn:
+                cur = conn.cursor()
+                cur.execute(sql, data)
+        except sqlite3.Error as e:
+            print(e)
+
+
+    def fetchall(self, sql: str, data: tuple) -> list:
+        output: list = []
+        try:
+            with sqlite3.connect(self.db_file) as conn:
+                cur = conn.cursor()
+                cur.execute(sql, data)
+                output = cur.fetchall()
+        except sqlite3.Error as e:
+            print(e)
+        return output
+
+
+    def fetchone(self, sql:str, data: tuple):
+        output = None
+        try:
+            with sqlite3.connect(self.db_file) as conn:
+                cur = conn.cursor()
+                cur.execute(sql, data)
+                output = cur.fetchone()
+        except sqlite3.Error as e:
+            print(e)
+        return output

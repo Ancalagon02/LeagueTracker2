@@ -1,31 +1,10 @@
-import sqlite3
-from database.create_database import CreateDatabase
+from database.create_database import DBConnections
 from models import Club, Country
 
 
-class Data(CreateDatabase):
+class Data(DBConnections):
     def __init__(self) -> None:
         super().__init__()
-
-
-    def read_countries(self) -> list[Country]:
-        sql = """ 
-            SELECT name
-            FROM country
-            """
-        data: list[Country] = []
-        try:
-            with sqlite3.connect(self.db_file) as conn:
-                cur = conn.cursor()
-                cur.execute(sql)
-                rows = cur.fetchall()
-            for [row] in rows:
-                country = Country(name=row)
-                data.append(country)
-        except sqlite3.Error as e:
-            print(e)
-            return []
-        return data
 
 
     def create_country(self, country_name: str) -> None:
@@ -34,13 +13,7 @@ class Data(CreateDatabase):
             VALUES(?)
             """
         data = (country_name,)
-        try:
-            with sqlite3.connect(self.db_file) as conn:
-                cur = conn.cursor()
-                cur.execute(sql, data)
-
-        except sqlite3.Error as e:
-            print(e)
+        self.execute(sql, data)
 
 
     def create_team(self, country_id: int, club_name: str) -> None:
@@ -49,12 +22,25 @@ class Data(CreateDatabase):
             VALUES(?,?)
             """
         data = (club_name, country_id,)
-        try:
-            with sqlite3.connect(self.db_file) as conn:
-                cur = conn.cursor()
-                cur.execute(sql, data)
-        except sqlite3.Error as e:
-            print(e)
+        self.execute(sql, data)
+
+
+    def create_league(self, country_id: int, league_name: str) -> None:
+        sql = """
+            INSERT INTO league (name, country_id)
+            VALUES(?,?)
+            """
+        data = (league_name, country_id,)
+        self.execute(sql, data)
+
+
+    def create_competition(self, league_id: int, club_id: int) -> None:
+        sql = """
+            INSERT INTO competition (league_id, club_id)
+            VALUES(?,?)
+            """
+        data = (league_id, club_id,)
+        self.execute(sql, data)
 
 
     def read_country_by_name(self, country_name: str) -> int:
@@ -64,14 +50,25 @@ class Data(CreateDatabase):
             WHERE name =?
             """
         data = (country_name,)
-        try:
-            with sqlite3.connect(self.db_file) as conn:
-                cur = conn.cursor()
-                cur.execute(sql, data)
-                return int(cur.fetchone()[0])
-        except sqlite3.Error as e:
-            print(e)
-            return 0
+        output: int = 0
+        row = self.fetchone(sql, data)
+        if row != None:
+            id = row[0]
+            output = id
+        return output
+
+
+    def read_countries(self) -> list[Country]:
+        sql = """ 
+            SELECT name
+            FROM country
+            """
+        output: list[Country] = []
+        rows = self.fetchall(sql, data=())
+        for [row] in rows:
+            country = Country(name=row)
+            output.append(country)
+        return output
 
 
     def read_teams_by_country_id(self, country_id: int) -> list[Club]:
@@ -83,15 +80,8 @@ class Data(CreateDatabase):
             """
         data = (country_id,)
         output: list[Club] = []
-        try:
-            with sqlite3.connect(self.db_file) as conn:
-                cur = conn.cursor()
-                cur.execute(sql, data)
-                rows = cur.fetchall()
-            for row in rows:
-                club = Club(name=row[0], country=Country(name=row[1]))
-                output.append(club)
-        except sqlite3.Error as e:
-            print(e)
-            return []
+        rows = self.fetchall(sql, data)
+        for row in rows:
+            club = Club(name=row[0], country=Country(name=row[1]))
+            output.append(club)
         return output

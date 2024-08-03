@@ -1,7 +1,8 @@
+#!/usr/bin/env python3
 from PyQt6.QtWidgets import QApplication
 import sys
-from database.data import Data
 from state import State
+from database.data import Data
 
 
 def main(file: str) -> None:

@@ -44,7 +44,7 @@ class CreateCompetition(QWidget):
         self.country_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.country_combobox = QComboBox(self.frame1)
-        data.map_country_combobox(self.country_combobox)
+        self.country_combobox.addItems(data.map_countries())
         self.country_combobox.currentTextChanged.connect(self.changed_country)
 
         self.frame2 = QFrame()
@@ -57,10 +57,13 @@ class CreateCompetition(QWidget):
         self.team_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.team_combobox = QComboBox(self.frame2)
-        data.map_teams_combobox(self.country_combobox, self.team_combobox)
+        self.team_combobox.addItems(data.map_teams(self.country_combobox.currentText()))
 
         self.team_button = QPushButton(self.frame2)
         self.team_button.setText("OK")
+        self.team_button.clicked.connect(self.add_teams_to_list)
+        if self.team_combobox.currentText() == "":
+            self.team_button.setDisabled(True)
 
         self.frame3 = QFrame()
         self.frame3.setFrameShape(QFrame.Shape.Box)
@@ -74,6 +77,8 @@ class CreateCompetition(QWidget):
         self.create_team_button = QPushButton(self.frame3)
         self.create_team_button.setText("Maak Ploeg")
         self.create_team_button.clicked.connect(self.init_create_team)
+        if self.country_combobox.currentText() == "":
+            self.create_team_button.setDisabled(True)
 
         self.verticalspacer2 = QSpacerItem(17, 16, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -150,6 +155,12 @@ class CreateCompetition(QWidget):
         self.setLayout(master_layout)
 
 
+    def error_message(self) -> str:
+        error = ErrorDialog("verkeerde text ingevuld")
+        error.exec()
+        return ""
+
+
     def init_name_label(self) -> None:
         self.comp_dialog = CreateDialog("Competitie", "Competitie Naam")
         if self.comp_dialog.aproved is not None:
@@ -158,14 +169,29 @@ class CreateCompetition(QWidget):
 
 
     def set_competition_name(self) -> None:
-        if data.validate_text(self.comp_dialog):
+        if data.validate_text(self.comp_dialog.line_edit.text()):
             self.competition_name_label.setText(self.comp_dialog.line_edit.text())
             self.comp_dialog.close()
+        else:
+            self.comp_dialog.line_edit.setText(self.error_message())
 
 
     def init_create_country(self) -> None:
         self.country_dialog = CreateDialog("land", "Land Naam")
+        if self.country_dialog.aproved is not None:
+            self.country_dialog.aproved.clicked.connect(self.create_country)
         self.country_dialog.exec()
+
+
+    def create_country(self) -> None:
+        if data.validate_text(self.country_dialog.line_edit.text()):
+            data.insert_country(self.country_dialog.line_edit.text())
+            self.country_combobox.clear()
+            self.country_combobox.addItems(data.map_countries())
+            self.country_dialog.close()
+            self.create_team_button.setDisabled(False)
+        else:
+            self.country_dialog.line_edit.setText(self.error_message())
 
 
     def init_create_team(self) -> None:
@@ -176,13 +202,27 @@ class CreateCompetition(QWidget):
 
 
     def create_team(self) -> None:
-        if data.validate_text(self.team_dialog):
-            data.map_team_insert(self.country_combobox, self.team_dialog)
+        if data.validate_text(self.team_dialog.line_edit.text()):
+            data.insert_team(self.country_combobox.currentText(), self.team_dialog.line_edit.text())
             self.team_combobox.clear()
-            data.map_teams_combobox(self.country_combobox, self.team_combobox)
+            self.team_listwidget.addItem(self.team_dialog.line_edit.text())
+            self.create_country_button.setDisabled(True)
             self.team_dialog.close()
+        else:
+            self.team_dialog.line_edit.setText(self.error_message())
 
 
     def changed_country(self) -> None:
         self.team_combobox.clear()
-        data.map_teams_combobox(self.country_combobox, self.team_combobox)
+        self.team_combobox.addItems(data.map_teams(self.country_combobox.currentText()))
+
+
+    def add_teams_to_list(self) -> None:
+        self.country_combobox.setDisabled(True)
+        self.create_country_button.setDisabled(True)
+        team: str = self.team_combobox.currentText()
+        team_id: int = self.team_combobox.currentIndex()
+        self.team_combobox.removeItem(team_id)
+        self.team_listwidget.addItem(team)
+        if self.team_combobox.currentText() == "":
+            self.team_button.setDisabled(True)
