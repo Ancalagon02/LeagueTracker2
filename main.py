@@ -1,25 +1,24 @@
 from PyQt6.QtWidgets import QApplication
 import sys
-from state import State
 from database.data import Data
+from state import State
 
-file = "style.css"
-def main():
+
+def main(file: str) -> None:
     app = QApplication([])
 
-    outer = State()
-    data = Data()
-    data.create_table()
+    db = Data()
+    db.create_table()
 
     with open(file, "r") as fh:
         app.setStyleSheet(fh.read())
 
-
-    outer.create_window()
-    
+    state = State()
+    state.init_main_window()
 
     sys.exit(app.exec())
 
     
 if __name__ == "__main__":
-    main()
+    file = "style.css"
+    main(file)

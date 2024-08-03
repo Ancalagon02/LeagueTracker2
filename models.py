@@ -20,7 +20,7 @@ class Club:
     points: int = 0
 
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.times_played = self.times_drawn + self.times_won + self.times_loses
         self.goals_difference = self.goals_for - self.goals_against
         if self.times_won != 0 and self.times_drawn != 0:
@@ -37,4 +37,9 @@ class Matches:
 class League:
     name: str
     country: Country
+
+
+@dataclass
+class Competition:
+    league: League
     matches: list[Matches]

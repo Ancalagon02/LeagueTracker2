@@ -1,10 +1,11 @@
 from PyQt6.QtCore import Qt 
 from PyQt6.QtWidgets import (QWidget, QLabel, QComboBox, QSizePolicy, QSpacerItem, QPushButton, QFrame, QListWidget,
 QAbstractScrollArea, QAbstractItemView, QHBoxLayout, QVBoxLayout)
+import database.mapping_data as data
 
 
 class MainWindow(QWidget):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.setWindowTitle("Start Scherm")
@@ -13,11 +14,12 @@ class MainWindow(QWidget):
         self.set_layout()
 
 
-    def init_ui(self):
+    def init_ui(self) -> None:
         self.label = QLabel()
         self.label.setText("Selecteer Land")
 
         self.country_combobox = QComboBox()
+        data.map_country_combobox(self.country_combobox)
 
         self.horizontal_spacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -46,7 +48,7 @@ class MainWindow(QWidget):
         self.start_competition_button.setText("Start Competitie")
 
 
-    def set_layout(self):
+    def set_layout(self) -> None:
         master_layout = QVBoxLayout()
         col1 = QHBoxLayout()
         col2 = QHBoxLayout()

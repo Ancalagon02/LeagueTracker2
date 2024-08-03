@@ -1,10 +1,13 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QLabel, QWidget, QPushButton, QFrame, QGridLayout, QVBoxLayout, QHBoxLayout,
 QSizePolicy, QSpacerItem, QComboBox, QListWidget, QAbstractItemView)
+import database.mapping_data as data
+from ui.create_dialog import CreateDialog
+from ui.error_dialog import ErrorDialog
 
 
 class CreateCompetition(QWidget):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.setWindowTitle("Maak Competitie")
@@ -13,7 +16,7 @@ class CreateCompetition(QWidget):
         self.set_layout()
 
 
-    def init_ui(self):
+    def init_ui(self) -> None:
         self.second_window = None
 
         self.competition_label = QLabel()
@@ -27,6 +30,7 @@ class CreateCompetition(QWidget):
 
         self.competition_name_button = QPushButton()
         self.competition_name_button.setText("Competitie Naam")
+        self.competition_name_button.clicked.connect(self.init_name_label)
 
         self.verticalspacer1 = QSpacerItem(17, 15, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -40,6 +44,8 @@ class CreateCompetition(QWidget):
         self.country_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.country_combobox = QComboBox(self.frame1)
+        data.map_country_combobox(self.country_combobox)
+        self.country_combobox.currentTextChanged.connect(self.changed_country)
 
         self.frame2 = QFrame()
         self.frame2.setFrameShape(QFrame.Shape.Box)
@@ -51,6 +57,7 @@ class CreateCompetition(QWidget):
         self.team_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.team_combobox = QComboBox(self.frame2)
+        data.map_teams_combobox(self.country_combobox, self.team_combobox)
 
         self.team_button = QPushButton(self.frame2)
         self.team_button.setText("OK")
@@ -62,9 +69,11 @@ class CreateCompetition(QWidget):
 
         self.create_country_button = QPushButton(self.frame3)
         self.create_country_button.setText("Maak Land")
+        self.create_country_button.clicked.connect(self.init_create_country)
 
         self.create_team_button = QPushButton(self.frame3)
         self.create_team_button.setText("Maak Ploeg")
+        self.create_team_button.clicked.connect(self.init_create_team)
 
         self.verticalspacer2 = QSpacerItem(17, 16, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -92,7 +101,7 @@ class CreateCompetition(QWidget):
         self.team_listwidget.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
 
 
-    def set_layout(self):
+    def set_layout(self) -> None:
         master_layout = QGridLayout()
         grid1 = QHBoxLayout()
         grid2 = QVBoxLayout()
@@ -139,3 +148,41 @@ class CreateCompetition(QWidget):
         master_layout.addWidget(self.frame4,       3, 1, 1, 1)
 
         self.setLayout(master_layout)
+
+
+    def init_name_label(self) -> None:
+        self.comp_dialog = CreateDialog("Competitie", "Competitie Naam")
+        if self.comp_dialog.aproved is not None:
+            self.comp_dialog.aproved.clicked.connect(self.set_competition_name)
+        self.comp_dialog.exec()
+
+
+    def set_competition_name(self) -> None:
+        if data.validate_text(self.comp_dialog):
+            self.competition_name_label.setText(self.comp_dialog.line_edit.text())
+            self.comp_dialog.close()
+
+
+    def init_create_country(self) -> None:
+        self.country_dialog = CreateDialog("land", "Land Naam")
+        self.country_dialog.exec()
+
+
+    def init_create_team(self) -> None:
+        self.team_dialog = CreateDialog("ploeg", "Ploeg Naam")
+        if self.team_dialog.aproved is not None:
+            self.team_dialog.aproved.clicked.connect(self.create_team)
+        self.team_dialog.exec()
+
+
+    def create_team(self) -> None:
+        if data.validate_text(self.team_dialog):
+            data.map_team_insert(self.country_combobox, self.team_dialog)
+            self.team_combobox.clear()
+            data.map_teams_combobox(self.country_combobox, self.team_combobox)
+            self.team_dialog.close()
+
+
+    def changed_country(self) -> None:
+        self.team_combobox.clear()
+        data.map_teams_combobox(self.country_combobox, self.team_combobox)

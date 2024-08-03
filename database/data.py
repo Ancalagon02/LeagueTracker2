@@ -1,25 +1,27 @@
 import sqlite3
 from database.create_database import CreateDatabase
+from models import Club, Country
 
 
 class Data(CreateDatabase):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
 
-    def read_countries(self) -> list[str]:
+    def read_countries(self) -> list[Country]:
         sql = """ 
             SELECT name
             FROM country
             """
-        data = []
+        data: list[Country] = []
         try:
             with sqlite3.connect(self.db_file) as conn:
                 cur = conn.cursor()
                 cur.execute(sql)
                 rows = cur.fetchall()
             for [row] in rows:
-                data.append(row)
+                country = Country(name=row)
+                data.append(country)
         except sqlite3.Error as e:
             print(e)
             return []
@@ -51,7 +53,6 @@ class Data(CreateDatabase):
             with sqlite3.connect(self.db_file) as conn:
                 cur = conn.cursor()
                 cur.execute(sql, data)
-
         except sqlite3.Error as e:
             print(e)
 
@@ -73,21 +74,23 @@ class Data(CreateDatabase):
             return 0
 
 
-    def read_teams_by_country_id(self, country_id: int) -> list[str]:
+    def read_teams_by_country_id(self, country_id: int) -> list[Club]:
         sql = """
-            SELECT name
+            SELECT club.name, country.name
             FROM club
+            INNER JOIN country ON country.id = club.country_id
             WHERE country_id =?
             """
         data = (country_id,)
-        output = []
+        output: list[Club] = []
         try:
             with sqlite3.connect(self.db_file) as conn:
                 cur = conn.cursor()
                 cur.execute(sql, data)
-                rows = cur.fetchmany()
-            for [row] in rows:
-                output.append(row)
+                rows = cur.fetchall()
+            for row in rows:
+                club = Club(name=row[0], country=Country(name=row[1]))
+                output.append(club)
         except sqlite3.Error as e:
             print(e)
             return []

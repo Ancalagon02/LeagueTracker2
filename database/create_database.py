@@ -1,11 +1,12 @@
+from abc import ABC
 import sqlite3
 
-class CreateDatabase():
-    def __init__(self):
+class CreateDatabase(ABC):
+    def __init__(self) -> None:
         self.db_file = "leaguetracker.db"
 
 
-    def create_table(self):
+    def create_table(self) -> None:
         sql_statement = [
             """CREATE TABLE IF NOT EXISTS country (
 	            id INTEGER PRIMARY KEY AUTOINCREMENT,

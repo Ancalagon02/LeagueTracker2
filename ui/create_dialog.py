@@ -2,15 +2,19 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QDialog, QLabel, QLineEdit, QDialogButtonBox, QVBoxLayout
 
 class CreateDialog(QDialog):
-    def __init__(self):
+    def __init__(self, title: str, label: str):
         super().__init__()
+
+        self.setWindowTitle(title)
+        self.label_text = label
 
         self.init_ui()
         self.set_layout()
 
 
-    def init_ui(self):
+    def init_ui(self) -> None:
         self.label = QLabel()
+        self.label.setText(self.label_text)
         self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.line_edit = QLineEdit()
@@ -27,7 +31,7 @@ class CreateDialog(QDialog):
             self.cancel.clicked.connect(self.close)
 
 
-    def set_layout(self):
+    def set_layout(self) -> None:
         master_layout = QVBoxLayout()
 
         master_layout.addWidget(self.label)
