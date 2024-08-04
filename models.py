@@ -10,6 +10,11 @@ class Country:
 class Club:
     name: str
     country: Country
+
+
+@dataclass
+class Match:
+    club: Club
     times_played: int = 0
     times_won: int = 0
     times_loses: int = 0
@@ -26,13 +31,6 @@ class Club:
         if self.times_won != 0 and self.times_drawn != 0:
             self.points = (self.times_won + 3) + self.times_drawn
 
-
-@dataclass
-class Matches:
-    data: date
-    clubs: list[Club]
-
-
 @dataclass
 class League:
     name: str
@@ -42,4 +40,10 @@ class League:
 @dataclass
 class Competition:
     league: League
-    matches: list[Matches]
+    clubs: list[Club]
+
+
+@dataclass
+class Matches:
+    competition: Competition
+    matches: list[Match]

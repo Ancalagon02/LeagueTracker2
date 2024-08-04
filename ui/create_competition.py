@@ -87,6 +87,8 @@ class CreateCompetition(QWidget):
 
         self.create_competition_button = QPushButton()
         self.create_competition_button.setText("Maak Competitie")
+        self.create_competition_button.setDisabled(True)
+        self.create_competition_button.clicked.connect(self.create_competition)
 
         self.frame4 = QFrame()
         self.frame4.setFrameShape(QFrame.Shape.Box)
@@ -172,6 +174,7 @@ class CreateCompetition(QWidget):
         if data.validate_text(self.comp_dialog.line_edit.text()):
             self.competition_name_label.setText(self.comp_dialog.line_edit.text())
             self.comp_dialog.close()
+            self.create_competition_button.setDisabled(data.validate_comp(self.competition_name_label.text(), self.team_listwidget.count()))
         else:
             self.comp_dialog.line_edit.setText(self.error_message())
 
@@ -208,6 +211,7 @@ class CreateCompetition(QWidget):
             self.team_listwidget.addItem(self.team_dialog.line_edit.text())
             self.create_country_button.setDisabled(True)
             self.team_dialog.close()
+            self.create_competition_button.setDisabled(data.validate_comp(self.competition_name_label.text(), self.team_listwidget.count()))
         else:
             self.team_dialog.line_edit.setText(self.error_message())
 
@@ -215,6 +219,10 @@ class CreateCompetition(QWidget):
     def changed_country(self) -> None:
         self.team_combobox.clear()
         self.team_combobox.addItems(data.map_teams(self.country_combobox.currentText()))
+        if self.team_combobox.currentText() == "":
+            self.team_button.setDisabled(True)
+        else:
+            self.team_button.setDisabled(False)
 
 
     def add_teams_to_list(self) -> None:
@@ -226,3 +234,14 @@ class CreateCompetition(QWidget):
         self.team_listwidget.addItem(team)
         if self.team_combobox.currentText() == "":
             self.team_button.setDisabled(True)
+        self.create_competition_button.setDisabled(data.validate_comp(self.competition_name_label.text(), self.team_listwidget.count()))
+
+
+    def create_competition(self) -> None:
+        data.insert_league(self.country_combobox.currentText(), self.competition_name_label.text())
+        clubs: list[str] = []
+        for club in range(self.team_listwidget.count()):
+            item = self.team_listwidget.item(club) 
+            if item is not None:
+                clubs.append(item.text())
+        data.insert_competition(self.competition_name_label.text(), clubs)

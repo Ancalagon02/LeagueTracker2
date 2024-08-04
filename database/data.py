@@ -1,5 +1,5 @@
 from database.create_database import DBConnections
-from models import Club, Country
+from models import Club, Competition, Country, League
 
 
 class Data(DBConnections):
@@ -43,18 +43,33 @@ class Data(DBConnections):
         self.execute(sql, data)
 
 
-    def read_country_by_name(self, country_name: str) -> int:
-        sql = """
+    def read_id_by_name(self, table_name: str, name: str) -> int:
+        sql = f"""
             SELECT id
-            FROM country
+            FROM {table_name}
             WHERE name =?
             """
-        data = (country_name,)
+        data = (name,)
         output: int = 0
         row = self.fetchone(sql, data)
         if row != None:
             id = row[0]
             output = id
+        return output
+
+
+    def read_name_by_id(self, table_name: str, id: int) -> str:
+        sql = f"""
+            SELECT name
+            FROM {table_name}
+            WHERE id =?
+            """
+        data = (id,)
+        output: str = ""
+        row = self.fetchone(sql, data)
+        if row != None:
+            name = row[0]
+            output = name
         return output
 
 
@@ -84,4 +99,34 @@ class Data(DBConnections):
         for row in rows:
             club = Club(name=row[0], country=Country(name=row[1]))
             output.append(club)
+        return output
+
+
+    def read_leagues_by_country_id(self, country_id: int) -> list[League]:
+        sql = """
+            SELECT league.name, country.name
+            FROM league
+            INNER JOIN country ON country.id = league.country_id
+            WHERE country_id =?
+            """
+        data = (country_id,)
+        output: list[League] = []
+        rows = self.fetchall(sql, data)
+        for row in rows:
+            league = League(name=row[0], country=Country(name=row[1]))
+            output.append(league)
+        return output
+
+    
+    def read_club_ids_by_league_id(self, league_id: int) -> list[int]:
+        sql = """
+            SELECT club_id
+            FROM competition
+            WHERE league_id =?
+            """
+        data = (league_id,)
+        output: list[int] = []
+        rows = self.fetchall(sql, data)
+        for row in rows:
+            output.append(row[0])
         return output

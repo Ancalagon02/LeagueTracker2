@@ -1,11 +1,14 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import (QSizePolicy, QSpacerItem, QWidget, QLabel, QComboBox, QVBoxLayout, QHBoxLayout, QPushButton,
+from PyQt6.QtWidgets import (QSizePolicy, QSpacerItem, QTableWidgetItem, QWidget, QLabel, QComboBox, QVBoxLayout, QHBoxLayout, QPushButton,
 QTableWidget, QAbstractItemView, QFrame, QToolButton)
+import database.mapping_data as data
+import random
 
 
 class Competition(QWidget):
-    def __init__(self):
+    def __init__(self, league_name: str) -> None:
         super().__init__()
+        self.league_name = league_name
 
         self.setWindowTitle("Competitie")
         
@@ -13,7 +16,7 @@ class Competition(QWidget):
         self.set_layout()
 
 
-    def init_ui(self):
+    def init_ui(self) -> None:
         self.competition_tablewidget = QTableWidget()
         self.competition_tablewidget.setColumnCount(9)
         self.competition_tablewidget.setFocusPolicy(Qt.FocusPolicy.NoFocus)
@@ -28,19 +31,10 @@ class Competition(QWidget):
         self.competition_tablewidget.setAlternatingRowColors(True)
         self.competition_tablewidget.setHorizontalHeaderLabels(["Ploeg", "P", "W", "L", "D", "F", "A", "GD", "Pts"])
 
-        self.header = self.competition_tablewidget.horizontalHeader()
-        self.row = self.competition_tablewidget.verticalHeader()
 
-        if self.header is not None and self.row is not None:
-            self.header.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
-            self.header.setFrameShape(QFrame.Shape.NoFrame)
-            self.header.setFocusPolicy(Qt.FocusPolicy.NoFocus)
-            self.header.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-            self.row.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
-            self.row.setFrameShape(QFrame.Shape.NoFrame)
-            self.row.setFocusPolicy(Qt.FocusPolicy.NoFocus)
-            self.row.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
-
+        self.set_list_items()
+            
+        self.competition_tablewidget.resizeColumnsToContents()
 
         self.frame1 = QFrame()
         self.frame1.setFrameShape(QFrame.Shape.Box)
@@ -77,32 +71,52 @@ class Competition(QWidget):
         self.exit_putton.clicked.connect(self.close)
 
 
-    def set_layout(self):
-        self.master_layout = QHBoxLayout()
-        self.row2 = QVBoxLayout()
-        self.row2_col1 = QVBoxLayout(self.frame1)
-        self.row2_col1_row1 = QHBoxLayout()
-        self.row2_col1_row2 = QVBoxLayout()
-        self.row2_col2 = QVBoxLayout(self.frame2)
+    def set_layout(self) -> None:
+        master_layout = QHBoxLayout()
+        row2 = QVBoxLayout()
+        row2_col1 = QVBoxLayout(self.frame1)
+        row2_col1_row1 = QHBoxLayout()
+        row2_col1_row2 = QVBoxLayout()
+        row2_col2 = QVBoxLayout(self.frame2)
 
-        self.row2_col1_row2.addWidget(self.up_button)
-        self.row2_col1_row2.addWidget(self.down_button)
+        row2_col1_row2.addWidget(self.up_button)
+        row2_col1_row2.addWidget(self.down_button)
 
-        self.row2_col1_row1.addWidget(self.date_combobox)
-        self.row2_col1_row1.addLayout(self.row2_col1_row2)
+        row2_col1_row1.addWidget(self.date_combobox)
+        row2_col1_row1.addLayout(row2_col1_row2)
         
-        self.row2_col1.addWidget(self.date_label)
-        self.row2_col1.addLayout(self.row2_col1_row1)
+        row2_col1.addWidget(self.date_label)
+        row2_col1.addLayout(row2_col1_row1)
 
-        self.row2_col2.addWidget(self.match_button)
-        self.row2_col2.addItem(self.verticalspacer)
-        self.row2_col2.addWidget(self.go_back_button)
-        self.row2_col2.addWidget(self.exit_putton)
+        row2_col2.addWidget(self.match_button)
+        row2_col2.addItem(self.verticalspacer)
+        row2_col2.addWidget(self.go_back_button)
+        row2_col2.addWidget(self.exit_putton)
 
-        self.row2.addWidget(self.frame1)
-        self.row2.addWidget(self.frame2)
+        row2.addWidget(self.frame1)
+        row2.addWidget(self.frame2)
 
-        self.master_layout.addWidget(self.competition_tablewidget)
-        self.master_layout.addLayout(self.row2)
+        master_layout.addWidget(self.competition_tablewidget)
+        master_layout.addLayout(row2)
 
-        self.setLayout(self.master_layout)
+        self.setLayout(master_layout)
+
+
+    def set_list_items(self) -> None:
+        clubs = data.map_competition(self.league_name)
+        r = 0
+        self.competition_tablewidget.setRowCount(len(clubs))
+        for club in clubs:
+            col = 0
+            item = QTableWidgetItem()
+            item.setText(club)
+            self.competition_tablewidget.setItem(r, 0, item)
+            c = 1
+            while col < self.competition_tablewidget.columnCount() -1:
+                num = QTableWidgetItem()
+                num.setData(Qt.ItemDataRole.DisplayRole, random.randint(0, 50))
+                self.competition_tablewidget.setItem(r, c, num)
+                col += 1
+                c += 1
+            r += 1
+        self.competition_tablewidget.sortItems(8, Qt.SortOrder.DescendingOrder)

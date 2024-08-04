@@ -20,6 +20,7 @@ class MainWindow(QWidget):
 
         self.country_combobox = QComboBox()
         self.country_combobox.addItems(data.map_countries())
+        self.country_combobox.currentTextChanged.connect(self.update_comp_list)
 
         self.horizontal_spacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -34,6 +35,8 @@ class MainWindow(QWidget):
         self.competition_listwidget.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
         self.competition_listwidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.competition_listwidget.setAlternatingRowColors(True)
+        self.competition_listwidget.addItems(data.map_leagues(self.country_combobox.currentText()))
+        self.competition_listwidget.itemSelectionChanged.connect(self.update_comp_label)
 
         self.label_2 = QLabel()
         self.label_2.setText("Competitie:")
@@ -46,6 +49,7 @@ class MainWindow(QWidget):
         self.start_competition_button = QPushButton()
         self.start_competition_button.setObjectName("main-button")
         self.start_competition_button.setText("Start Competitie")
+        self.start_competition_button.setDisabled(True)
 
 
     def set_layout(self) -> None:
@@ -68,3 +72,17 @@ class MainWindow(QWidget):
         master_layout.addLayout(col2)
 
         self.setLayout(master_layout)
+
+
+    def update_comp_list(self) -> None:
+        self.competition_listwidget.clear()
+        self.competition_listwidget.addItems(data.map_leagues(self.country_combobox.currentText()))
+        self.start_competition_button.setDisabled(True)
+        self.competition_name_label.setText("placeholder")
+
+
+    def update_comp_label(self) -> None:
+        league = self.competition_listwidget.currentItem()
+        if league is not None:
+            self.competition_name_label.setText(league.text())
+            self.start_competition_button.setDisabled(False)
