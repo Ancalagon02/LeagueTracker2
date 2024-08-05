@@ -1,5 +1,5 @@
 from database.create_database import DBConnections
-from models import Club, Competition, Country, League
+from modules.models import Club, Country, League
 
 
 class Data(DBConnections):

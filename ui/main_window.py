@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt 
 from PyQt6.QtWidgets import (QWidget, QLabel, QComboBox, QSizePolicy, QSpacerItem, QPushButton, QFrame, QListWidget,
 QAbstractScrollArea, QAbstractItemView, QHBoxLayout, QVBoxLayout)
-import database.mapping_data as data
+import modules.mapping_data as data
 
 
 class MainWindow(QWidget):

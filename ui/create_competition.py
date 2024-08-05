@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QLabel, QWidget, QPushButton, QFrame, QGridLayout, QVBoxLayout, QHBoxLayout,
 QSizePolicy, QSpacerItem, QComboBox, QListWidget, QAbstractItemView)
-import database.mapping_data as data
+import modules.mapping_data as data
 from ui.create_dialog import CreateDialog
 from ui.error_dialog import ErrorDialog
 

@@ -1,5 +1,5 @@
 from database.data import Data
-from models import Club, Country, League, Match
+from modules.models import Club, Country, League
 
 
 def map_countries() -> list[str]:

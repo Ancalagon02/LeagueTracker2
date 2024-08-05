@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QSizePolicy, QSpacerItem, QTableWidgetItem, QWidget, QLabel, QComboBox, QVBoxLayout, QHBoxLayout, QPushButton,
 QTableWidget, QAbstractItemView, QFrame, QToolButton)
-import database.mapping_data as data
+import modules.mapping_data as data
 import random
 
 

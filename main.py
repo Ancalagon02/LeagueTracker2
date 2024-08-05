@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from PyQt6.QtWidgets import QApplication
 import sys
-from state import State
+from modules.state import State
 from database.data import Data
 
 
