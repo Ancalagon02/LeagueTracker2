@@ -2,13 +2,13 @@
 from PyQt6.QtWidgets import QApplication
 import sys
 from modules.state import State
-from database.data import Data
+from database.create_database import DBConnections
 
 
 def main(file: str) -> None:
     app = QApplication([])
 
-    db = Data()
+    db = DBConnections()
     db.create_table()
 
     with open(file, "r") as fh:

@@ -1,132 +1,170 @@
 from database.create_database import DBConnections
-from modules.models import Club, Country, League
 
 
-class Data(DBConnections):
-    def __init__(self) -> None:
-        super().__init__()
+_db = DBConnections()
 
 
-    def create_country(self, country_name: str) -> None:
-        sql = """
-            INSERT INTO country (name)
-            VALUES(?)
-            """
-        data = (country_name,)
-        self.execute(sql, data)
+def create_country(country_name: str) -> None:
+    sql = """
+        INSERT INTO country (name)
+        VALUES (?)
+        """
+    data = (country_name,)
+    _db.execute(sql, data)
 
 
-    def create_team(self, country_id: int, club_name: str) -> None:
-        sql = """
-            INSERT INTO club (name, country_id)
-            VALUES(?,?)
-            """
-        data = (club_name, country_id,)
-        self.execute(sql, data)
+def create_team(team_name: str, country_name: str) -> None:
+    country_id = read_country_id_by_country_name(country_name)
+    sql = """
+        INSERT INTO club (name, country_id)
+        VALUES (?, ?)
+        """
+    data = (team_name, country_id,)
+    _db.execute(sql, data)        
 
 
-    def create_league(self, country_id: int, league_name: str) -> None:
-        sql = """
-            INSERT INTO league (name, country_id)
-            VALUES(?,?)
-            """
-        data = (league_name, country_id,)
-        self.execute(sql, data)
+def create_league(league_name: str, country_name: str) -> None:
+    country_id = read_country_id_by_country_name(country_name)
+    sql = """
+        INSERT INTO league (name, country_id)
+        VALUES (?, ?)
+        """
+    data = (league_name, country_id,)
+    _db.execute(sql, data)
 
 
-    def create_competition(self, league_id: int, club_id: int) -> None:
-        sql = """
-            INSERT INTO competition (league_id, club_id)
-            VALUES(?,?)
-            """
-        data = (league_id, club_id,)
-        self.execute(sql, data)
+def create_competition(league_name: str, club_name: str) -> None:
+    league_id = read_league_id_by_league_name(league_name)
+    club_id = read_team_id_by_team_name(club_name)
+    sql = """
+        INSERT INTO competition (league_id, club_id)
+        VALUES (?, ?)
+        """
+    data = (league_id, club_id,)
+    _db.execute(sql, data)
 
 
-    def read_id_by_name(self, table_name: str, name: str) -> int:
-        sql = f"""
-            SELECT id
-            FROM {table_name}
-            WHERE name =?
-            """
-        data = (name,)
-        output: int = 0
-        row = self.fetchone(sql, data)
-        if row != None:
-            id = row[0]
-            output = id
-        return output
+def read_countries() -> list[str]:
+    sql = """
+        SELECT name
+        FROM country
+        """
+    output: list[str] = []
+    rows = _db.fetchall(sql, data=())
+    for [row] in rows:
+        output.append(row)
+    return output
 
 
-    def read_name_by_id(self, table_name: str, id: int) -> str:
-        sql = f"""
-            SELECT name
-            FROM {table_name}
-            WHERE id =?
-            """
-        data = (id,)
-        output: str = ""
-        row = self.fetchone(sql, data)
-        if row != None:
-            name = row[0]
-            output = name
-        return output
+def read_country_id_by_country_name(country_name: str) -> int:
+    sql = """
+        SELECT id
+        FROM country
+        WHERE name = ?
+        """
+    data = (country_name,)
+    output: int = 0
+    row = _db.fetchone(sql, data)
+    if row != None:
+        id = row[0]
+        output = id
+    return output
 
 
-    def read_countries(self) -> list[Country]:
-        sql = """ 
-            SELECT name
-            FROM country
-            """
-        output: list[Country] = []
-        rows = self.fetchall(sql, data=())
-        for [row] in rows:
-            country = Country(name=row)
-            output.append(country)
-        return output
+def read_team_id_by_team_name(team_name: str) -> int:
+    sql = """
+        SELECT id
+        FROM club
+        WHERE name = ?
+        """
+    data = (team_name,)
+    output: int = 0
+    row = _db.fetchone(sql, data)
+    if row != None:
+        id = row[0]
+        output = id
+    return output
 
 
-    def read_teams_by_country_id(self, country_id: int) -> list[Club]:
-        sql = """
-            SELECT club.name, country.name
-            FROM club
-            INNER JOIN country ON country.id = club.country_id
-            WHERE country_id =?
-            """
-        data = (country_id,)
-        output: list[Club] = []
-        rows = self.fetchall(sql, data)
-        for row in rows:
-            club = Club(name=row[0], country=Country(name=row[1]))
-            output.append(club)
-        return output
+def read_league_id_by_league_name(league_name: str) -> int:
+    sql = """
+        SELECT id
+        FROM league
+        WHERE name = ?
+        """
+    data = (league_name,)
+    output: int = 0
+    row = _db.fetchone(sql, data)
+    if row != None:
+        id = row[0]
+        output = id
+    return output
 
 
-    def read_leagues_by_country_id(self, country_id: int) -> list[League]:
-        sql = """
-            SELECT league.name, country.name
-            FROM league
-            INNER JOIN country ON country.id = league.country_id
-            WHERE country_id =?
-            """
-        data = (country_id,)
-        output: list[League] = []
-        rows = self.fetchall(sql, data)
-        for row in rows:
-            league = League(name=row[0], country=Country(name=row[1]))
-            output.append(league)
-        return output
+def read_team_name_by_id(club_id: int) -> str:
+    sql = """
+        SELECT name
+        FROM club
+        WHERE id = ?
+        """
+    data = (club_id,)
+    output: str = ""
+    row = _db.fetchone(sql, data)
+    if row != None:
+        name = row[0]
+        output = name
+    return output
 
-    
-    def read_club_ids_by_league_id(self, league_id: int) -> list[int]:
-        sql = """
-            SELECT club_id
-            FROM competition
-            WHERE league_id =?
-            """
-        data = (league_id,)
-        output: list[int] = []
-        rows = self.fetchall(sql, data)
-        for row in rows:
-            output.append(row[0])
-        return output
+
+def read_team_id_by_league_id(league_id: int) -> list[int]:
+    sql = """
+        SELECT club_id
+        FROM competition
+        WHERE league_id = ?
+        """
+    data = (league_id,)
+    output: list[int] = []
+    rows = _db.fetchall(sql, data)
+    for [row] in rows:
+        output.append(row)
+    return output
+
+
+def read_teams_name_by_country_name(country_name: str) -> list[str]:
+    country_id = read_country_id_by_country_name(country_name)
+    sql = """
+        SELECT name
+        FROM club
+        WHERE country_id = ?
+        """
+    data = (country_id,)
+    output: list[str] = []
+    rows = _db.fetchall(sql, data)
+    for [row] in rows:
+        output.append(row)
+    return output
+
+
+def read_leagues_name_by_country_name(country_name: str) -> list[str]:
+    country_id = read_country_id_by_country_name(country_name)
+    sql = """
+        SELECT name
+        FROM league
+        WHERE country_id = ?
+        """
+    data = (country_id,)
+    output: list[str] = []
+    rows = _db.fetchall(sql, data)
+    for [row] in rows:
+        output.append(row)
+    return output
+
+
+def read_teams_name_by_league_name(league_name: str) -> list[str]:
+    league_id = read_league_id_by_league_name(league_name)
+    club_ids = read_team_id_by_league_id(league_id)
+    output: list[str] = []
+    for id in club_ids:
+        club = read_team_name_by_id(id)
+        output.append(club)
+    return output

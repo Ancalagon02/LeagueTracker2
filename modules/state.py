@@ -6,6 +6,7 @@ class State:
     def __init__(self):
         self.league_name: str = ""
 
+
     def init_main_window(self) -> None:
         self.main_window = MainWindow()
         self.main_window.create_competition_button.clicked.connect(self.init_competition_window)

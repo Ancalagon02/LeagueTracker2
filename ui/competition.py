@@ -1,8 +1,7 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QSizePolicy, QSpacerItem, QTableWidgetItem, QWidget, QLabel, QComboBox, QVBoxLayout, QHBoxLayout, QPushButton,
 QTableWidget, QAbstractItemView, QFrame, QToolButton)
-import modules.mapping_data as data
-import random
+import database.data as data
 
 
 class Competition(QWidget):
@@ -31,9 +30,8 @@ class Competition(QWidget):
         self.competition_tablewidget.setAlternatingRowColors(True)
         self.competition_tablewidget.setHorizontalHeaderLabels(["Ploeg", "P", "W", "L", "D", "F", "A", "GD", "Pts"])
 
+        self.set_list_first()
 
-        self.set_list_items()
-            
         self.competition_tablewidget.resizeColumnsToContents()
 
         self.frame1 = QFrame()
@@ -102,8 +100,8 @@ class Competition(QWidget):
         self.setLayout(master_layout)
 
 
-    def set_list_items(self) -> None:
-        clubs = data.map_competition(self.league_name)
+    def set_list_first(self) -> None:
+        clubs = data.read_teams_name_by_league_name(self.league_name)
         r = 0
         self.competition_tablewidget.setRowCount(len(clubs))
         for club in clubs:
@@ -112,11 +110,10 @@ class Competition(QWidget):
             item.setText(club)
             self.competition_tablewidget.setItem(r, 0, item)
             c = 1
-            while col < self.competition_tablewidget.columnCount() -1:
+            while col < self.competition_tablewidget.columnCount() - 1:
                 num = QTableWidgetItem()
-                num.setData(Qt.ItemDataRole.DisplayRole, random.randint(0, 50))
+                num.setData(Qt.ItemDataRole.DisplayRole, 0)
                 self.competition_tablewidget.setItem(r, c, num)
                 col += 1
                 c += 1
             r += 1
-        self.competition_tablewidget.sortItems(8, Qt.SortOrder.DescendingOrder)
