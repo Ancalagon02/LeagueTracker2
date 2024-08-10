@@ -1,6 +1,7 @@
 from ui.main_window import MainWindow
 from ui.create_competition import CreateCompetition
 from ui.competition import Competition
+from ui.matches import Matches
 
 class State:
     def __init__(self):
@@ -36,6 +37,7 @@ class State:
         self.league_window = Competition(self.league_name)
         self.league_window.go_back_button.clicked.connect(self.return_main_window_from_league)
         self.league_window.exit_putton.clicked.connect(lambda: self.league_window.close())
+        self.league_window.match_button.clicked.connect(self.init_match_window)
         self.league_window.show()
 
 
@@ -49,3 +51,13 @@ class State:
         self.league_name = self.comp_window.competition_name_label.text()
         self.init_competition()
         self.comp_window.close()
+
+
+    def init_match_window(self) -> None:
+        self.match = Matches(self.league_window)
+        self.match.go_back_button.clicked.connect(self.close_match)
+        self.match.show()
+
+
+    def close_match(self) -> None:
+        del self.match

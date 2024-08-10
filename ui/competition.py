@@ -13,6 +13,7 @@ class Competition(QWidget):
         
         self.init_ui()
         self.set_layout()
+        self.clubs = data.read_teams_name_by_league_name(self.league_name)
 
 
     def init_ui(self) -> None:
