@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import (QListWidget, QWidget, QLabel, QSpinBox, QSpacerItem
 QHBoxLayout, QDateEdit, QSizePolicy, QPushButton)
 from ui.competition import Competition
 import database.data as data
+import modules.helpers as helper 
 
 
 class Matches(QWidget):
@@ -132,9 +133,38 @@ class Matches(QWidget):
 
 
     def played_game(self) -> None:
-        team_one_name: str = self.team_one_label.text()
-        team_one_score: str = self.team_one_spinbox.text()
-        team_two_name: str = self.team_two_label.text()
-        team_two_score: str = self.team_two_spinbox.text()
         play_date: date = self.date_dateedit.date().toPyDate()
+        team_one: dict = helper.return_team(self.team_one_label.text(),
+                                            int(self.team_one_spinbox.text()),
+                                            int(self.team_two_spinbox.text()),
+                                            play_date)
+        team_two: dict = helper.return_team(self.team_two_label.text(),
+                                            int(self.team_two_spinbox.text()),
+                                            int(self.team_one_spinbox.text()),
+                                            play_date)
+        helper.process_match(team_one, team_two)
+
+        self.reset_ui()
+        if self.team_listwdget.count() == 0:
+            self.disable_ui()
+        data.create_match(team_one)
+        data.create_match(team_two)
         league_name: str = self.competition.league_name
+        data.create_matches(league_name, team_one["name"])
+        data.create_matches(league_name, team_two["name"])
+
+
+    def reset_ui(self) -> None:
+        self.team_one_label.setText("Ploeg Een")
+        self.team_one_spinbox.setValue(0)
+        self.team_one_button.setDisabled(False)
+
+        self.team_two_label.setText("Ploeg Twee")
+        self.team_two_spinbox.setValue(0)
+        self.team_two_button.setDisabled(False)
+
+
+    def disable_ui(self) -> None:
+        self.team_one_button.setDisabled(True)
+        self.team_two_button.setDisabled(True)
+        self.match_button.setDisabled(True)
