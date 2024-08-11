@@ -23,6 +23,19 @@ def validate_comp(label: str, list_count: int) -> bool:
     return output
 
 
+def return_first_match_team(name: str) -> dict:
+    output: dict = {
+        "name": name,
+        "date": str(date.today().strftime("%d-%m-%y")),
+        "times_won": 0,
+        "times_loses": 0,
+        "times_drawn": 0,
+        "goals_for": 0,
+        "goals_against": 0,
+    }
+    return output
+
+
 def return_team(name: str, score: int, score_opponent: int, date: date) -> dict:
     output: dict = {
         "name": name,
@@ -68,12 +81,12 @@ def dicide_winning_team(team_one: dict, team_two: dict):
         team_two["times_drawn"] += 1
 
 
-def map_matches(league_name: str) -> list[dict]:
-    matches = data.read_matches_by_league_name(league_name)
+def map_matches(league_name: str, club_names: list[str]) -> list[dict]:
+    clubs = map_teams(club_names)
     dates = data.read_dates_by_league_name(league_name)
     output: list[dict] = []
     for date in dates:
-        for match in matches:
+        for match in clubs:
             team: dict = {
                 "name": match[0],
                 "times_played": (match[2] + match[3] + match[4]),
@@ -92,3 +105,12 @@ def map_matches(league_name: str) -> list[dict]:
                 }
                 output.append(mat)
     return output
+
+
+def map_teams(club_names: list[str]) -> list:
+    output: list = []
+    for club in club_names:
+        match = data.read_match_by_team_name(club)
+        output.append(match)
+    return output
+

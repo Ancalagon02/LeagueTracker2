@@ -9,14 +9,20 @@ class Competition(QWidget):
     def __init__(self, league_name: str) -> None:
         super().__init__()
         self.league_name = league_name
+        self.clubs = data.read_teams_name_by_league_name(self.league_name)
+
+        self.dates = data.read_dates_by_league_name(self.league_name)
+        self.teams = helper.map_matches(self.league_name, self.clubs)
+
+        self.dates.sort(reverse=True)
 
         self.setWindowTitle("Competitie")
         
         self.init_ui()
         self.set_layout()
-        self.clubs = data.read_teams_name_by_league_name(self.league_name)
 
-        helper.map_matches(self.league_name)
+        self.set_list_first()
+        self.check_buttons()
 
 
     def init_ui(self) -> None:
@@ -34,9 +40,6 @@ class Competition(QWidget):
         self.competition_tablewidget.setAlternatingRowColors(True)
         self.competition_tablewidget.setHorizontalHeaderLabels(["Ploeg", "P", "W", "L", "D", "F", "A", "GD", "Pts"])
 
-        self.set_list_first()
-
-        self.competition_tablewidget.resizeColumnsToContents()
 
         self.frame1 = QFrame()
         self.frame1.setFrameShape(QFrame.Shape.Box)
@@ -48,12 +51,16 @@ class Competition(QWidget):
         self.date_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.date_combobox = QComboBox(self.frame1)
+        self.date_combobox.addItems(self.dates)
+        self.date_combobox.currentTextChanged.connect(self.changed_date)
 
         self.up_button = QToolButton(self.frame1)
         self.up_button.setArrowType(Qt.ArrowType.UpArrow)
+        self.up_button.clicked.connect(self.down_index)
 
         self.down_button = QToolButton(self.frame1)
-        self.down_button.setArrowType(Qt.ArrowType.UpArrow)
+        self.down_button.setArrowType(Qt.ArrowType.DownArrow)
+        self.down_button.clicked.connect(self.up_index)
 
         self.frame2 = QFrame()
         self.frame2.setFrameShape(QFrame.Shape.Box)
@@ -106,18 +113,65 @@ class Competition(QWidget):
 
     def set_list_first(self) -> None:
         clubs = data.read_teams_name_by_league_name(self.league_name)
-        r = 0
         self.competition_tablewidget.setRowCount(len(clubs))
-        for club in clubs:
-            col = 0
-            item = QTableWidgetItem()
-            item.setText(club)
-            self.competition_tablewidget.setItem(r, 0, item)
-            c = 1
-            while col < self.competition_tablewidget.columnCount() - 1:
-                num = QTableWidgetItem()
-                num.setData(Qt.ItemDataRole.DisplayRole, 0)
-                self.competition_tablewidget.setItem(r, c, num)
-                col += 1
+        if clubs != []:
+            self.changed_date()
+        else:
+            r = 0
+            for club in clubs:
+                col = 0
+                item = QTableWidgetItem()
+                item.setText(club)
+                self.competition_tablewidget.setItem(r, 0, item)
+                c = 1
+                while col < self.competition_tablewidget.columnCount() - 1:
+                    num = QTableWidgetItem()
+                    num.setData(Qt.ItemDataRole.DisplayRole, 0)
+                    self.competition_tablewidget.setItem(r, c, num)
+                    col += 1
+                    c += 1
+                r += 1
+        self.competition_tablewidget.resizeColumnsToContents()
+
+
+    def changed_date(self) -> None:
+        teams = self.teams
+        r = 0
+        for team in teams:
+            c = 0
+            for key in team["team"].values():
+                times_plated = QTableWidgetItem()
+                times_plated.setData(Qt.ItemDataRole.DisplayRole, key)
+                self.competition_tablewidget.setItem(r, c, times_plated)
                 c += 1
             r += 1
+        self.check_buttons()
+        self.competition_tablewidget.resizeColumnsToContents()
+
+
+    def check_buttons(self) -> None:
+        if self.date_combobox.currentIndex() == (len(self.dates) - 1):
+            self.down_button.setDisabled(True)
+        if self.date_combobox.currentIndex() != (len(self.dates) - 1):
+            self.down_button.setDisabled(True)
+        if self.date_combobox.currentIndex() == 0:
+            self.up_button.setDisabled(True)
+        if self.date_combobox.currentIndex() != 0:
+            self.up_button.setDisabled(True)
+        self.date_combobox.setDisabled(True)
+
+
+    def up_index(self) -> None:
+        self.competition_tablewidget.clear()
+        index = self.date_combobox.currentIndex()
+        index += 1
+        self.date_combobox.setCurrentIndex(index)
+        self.check_buttons()
+
+
+    def down_index(self) -> None:
+        self.competition_tablewidget.clear()
+        index = self.date_combobox.currentIndex()
+        index -= 1
+        self.date_combobox.setCurrentIndex(index)
+        self.check_buttons()

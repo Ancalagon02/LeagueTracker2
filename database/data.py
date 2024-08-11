@@ -275,3 +275,22 @@ def read_dates_by_league_name(league_name: str) -> list[str]:
     for [row] in rows:
         output.append(row)
     return output
+
+
+def read_match_by_team_name(team_name: str) -> list:
+    club_id = read_team_id_by_team_name(team_name)
+    sql = """
+        SELECT club.name, match.data, match.times_won, match.times_loses, match.times_drawn, match.goals_for, match.goals_against
+        FROM match
+        INNER JOIN club on match.club_id == club.id
+        WHERE club_id = ?
+        ORDER BY match.id DESC
+        LIMIT 1
+        """
+    data = (club_id,)
+    output: list[str | int] = []
+    rows = _db.fetchone(sql, data)
+    if rows != None:
+        for row in rows:
+            output.append(row)
+    return output
