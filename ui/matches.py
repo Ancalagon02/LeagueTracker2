@@ -134,24 +134,49 @@ class Matches(QWidget):
 
     def played_game(self) -> None:
         play_date: date = self.date_dateedit.date().toPyDate()
-        team_one: dict = helper.return_team(self.team_one_label.text(),
-                                            int(self.team_one_spinbox.text()),
-                                            int(self.team_two_spinbox.text()),
-                                            play_date)
-        team_two: dict = helper.return_team(self.team_two_label.text(),
-                                            int(self.team_two_spinbox.text()),
-                                            int(self.team_one_spinbox.text()),
-                                            play_date)
-        helper.process_match(team_one, team_two)
+        league_name: str = self.competition.league_name
+        teams = helper.map_matches(league_name)
+        team_one = self.map_team_one(play_date)
+        team_two = self.map_team_two(play_date)
+        
+        for team in teams:
+            if team["name"] == team_one["name"]:
+                print(team)
+                print(team_one)
+            elif team["name"] == team_two["name"]:
+                print()
+                print(team)
+                print(team_two)
 
         self.reset_ui()
         if self.team_listwdget.count() == 0:
             self.disable_ui()
-        data.create_match(team_one)
-        data.create_match(team_two)
-        league_name: str = self.competition.league_name
-        data.create_matches(league_name, team_one["name"])
-        data.create_matches(league_name, team_two["name"])
+
+
+    def map_team_two(self, play_date: date) -> dict:
+        name = self.team_two_label.text()
+        score = self.team_two_spinbox.text()
+        score_oponent = self.team_one_spinbox.text()
+        output: dict = {
+            "name": name,
+            "data": str(play_date.strftime("%d-%m-%y")),
+            "goals_for": score,
+            "score_against": score_oponent
+        }
+        return output
+
+
+    def map_team_one(self, play_date: date) -> dict:
+        name = self.team_one_label.text()
+        score = self.team_one_spinbox.text()
+        score_oponent = self.team_two_spinbox.text()
+        output: dict = {
+            "name": name,
+            "data": str(play_date.strftime("%d-%m-%y")),
+            "goals_for": score,
+            "score_against": score_oponent
+        }
+        return output
 
 
     def reset_ui(self) -> None:

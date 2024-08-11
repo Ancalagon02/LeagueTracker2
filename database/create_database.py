@@ -1,6 +1,5 @@
 from abc import ABC
 import sqlite3
-from typing import overload
 
 class CreateDatabase(ABC):
     def __init__(self) -> None:
@@ -29,6 +28,7 @@ class CreateDatabase(ABC):
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 club_id INTEGER NOT NULL,
                 data TEXT NOT NULL,
+                times_played INTEGER NOT NULL,
                 times_won INTEGER NOT NULL,
                 times_loses INTEGER NOT NULL,
                 times_drawn INTEGER NOT NULL,

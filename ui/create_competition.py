@@ -266,5 +266,5 @@ class CreateCompetition(QWidget):
             if team is not None:
                 team_name = team.text()
                 data.create_competition(league_name, team_name)
-                data.create_match(helper.return_first_match_team(team_name))
+                data.create_match(helper.create_team(team_name))
                 data.create_matches(league_name, team_name)

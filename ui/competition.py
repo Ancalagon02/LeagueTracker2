@@ -12,7 +12,7 @@ class Competition(QWidget):
         self.clubs = data.read_teams_name_by_league_name(self.league_name)
 
         self.dates = data.read_dates_by_league_name(self.league_name)
-        self.teams = helper.map_matches(self.league_name, self.clubs)
+        self.teams = helper.map_matches(self.league_name)
 
         self.dates.sort(reverse=True)
 
@@ -139,7 +139,7 @@ class Competition(QWidget):
         r = 0
         for team in teams:
             c = 0
-            for key in team["team"].values():
+            for key in team:
                 times_plated = QTableWidgetItem()
                 times_plated.setData(Qt.ItemDataRole.DisplayRole, key)
                 self.competition_tablewidget.setItem(r, c, times_plated)

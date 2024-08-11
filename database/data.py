@@ -47,10 +47,10 @@ def create_competition(league_name: str, club_name: str) -> None:
 def create_match(match: dict) -> None:
     team_id = read_team_id_by_team_name(match["name"])
     sql = """
-        INSERT INTO match (club_id, data, times_won, times_loses, times_drawn, goals_for, goals_against)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO match (club_id, data, times_played, times_won, times_loses, times_drawn, goals_for, goals_against)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         """
-    data = (team_id, match["date"], match["times_won"], match["times_loses"], match["times_drawn"],
+    data = (team_id, match["date"], match["times_played"], match["times_won"], match["times_loses"], match["times_drawn"],
             match["goals_for"], match["goals_against"],)
     _db.execute(sql, data)
 
@@ -226,28 +226,10 @@ def read_teams_name_by_league_name(league_name: str) -> list[str]:
     return output
 
 
-def read_latest_match_by_team_name(team_name: str) -> list[str | int]:
-    club_id = read_team_id_by_team_name(team_name)
-    sql = """
-        SELECT times_won, times_loses, times_drawn, goals_for, goals_against
-        FROM match
-        WHERE club_id = ?
-        ORDER BY id DESC
-        LIMIT 1
-        """
-    data = (club_id,)
-    output: list[str | int] = []
-    rows = _db.fetchone(sql, data)
-    if rows != None:
-        for row in rows:
-            output.append(row)
-    return output
-
-
 def read_matches_by_league_name(league_name: str) -> list:
     competition_id = read_competition_id_by_league_name(league_name)
     sql = """
-        Select club.name, match.data, match.times_won, match.times_loses, match.times_drawn, match.goals_for, match.goals_against
+        Select club.name, match.data, match.times_played, match.times_won, match.times_loses, match.times_drawn, match.goals_for, match.goals_against
         FROM matches
         INNER JOIN club on match.club_id == club.id
         INNER JOIN match on matches.match_id == match.id
@@ -280,7 +262,7 @@ def read_dates_by_league_name(league_name: str) -> list[str]:
 def read_match_by_team_name(team_name: str) -> list:
     club_id = read_team_id_by_team_name(team_name)
     sql = """
-        SELECT club.name, match.data, match.times_won, match.times_loses, match.times_drawn, match.goals_for, match.goals_against
+        SELECT club.name, match.data, match.times_played, match.times_won, match.times_loses, match.times_drawn, match.goals_for, match.goals_against
         FROM match
         INNER JOIN club on match.club_id == club.id
         WHERE club_id = ?
