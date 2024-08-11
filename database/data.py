@@ -159,7 +159,7 @@ def read_team_name_by_id(club_id: int) -> str:
 def read_competition_id_by_league_name(league_name: str) -> int:
     league_id = read_league_id_by_league_name(league_name)
     sql = """
-        SELECT id, club_id
+        SELECT id
         from competition
         WHERE league_id = ?
         """
@@ -241,4 +241,37 @@ def read_latest_match_by_team_name(team_name: str) -> list[str | int]:
     if rows != None:
         for row in rows:
             output.append(row)
+    return output
+
+
+def read_matches_by_league_name(league_name: str) -> list:
+    competition_id = read_competition_id_by_league_name(league_name)
+    sql = """
+        Select club.name, match.data, match.times_won, match.times_loses, match.times_drawn, match.goals_for, match.goals_against
+        FROM matches
+        INNER JOIN club on match.club_id == club.id
+        INNER JOIN match on matches.match_id == match.id
+        WHERE matches.competition_id = ?
+        """
+    data = (competition_id,)
+    output: list = []
+    rows = _db.fetchall(sql, data)
+    for row in rows:
+        output.append(row)
+    return output
+
+
+def read_dates_by_league_name(league_name: str) -> list[str]:
+    competition_id = read_competition_id_by_league_name(league_name)
+    sql = """
+        SELECT DISTINCT match.data
+        FROM matches
+        INNER JOIN match on matches.match_id == match.id
+        WHERE matches.competition_id = ?
+        """
+    data = (competition_id,)
+    output: list[str] = []
+    rows = _db.fetchall(sql, data)
+    for [row] in rows:
+        output.append(row)
     return output

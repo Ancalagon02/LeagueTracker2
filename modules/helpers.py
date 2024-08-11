@@ -66,3 +66,29 @@ def dicide_winning_team(team_one: dict, team_two: dict):
     elif team_two["goals_for"] == team_one["goals_for"]:
         team_one["times_drawn"] += 1
         team_two["times_drawn"] += 1
+
+
+def map_matches(league_name: str) -> list[dict]:
+    matches = data.read_matches_by_league_name(league_name)
+    dates = data.read_dates_by_league_name(league_name)
+    output: list[dict] = []
+    for date in dates:
+        for match in matches:
+            team: dict = {
+                "name": match[0],
+                "times_played": (match[2] + match[3] + match[4]),
+                "times_won": match[2],
+                "times_loses": match[3],
+                "times_drawn": match[4],
+                "goals_for": match[5],
+                "goals_against": match[6],
+                "goals_difference": (match[5] - match[6]),
+                "points": ((match[2] * 3) + match[4])
+            }
+            if date == match[1]:
+                mat: dict = {
+                    "date": date,
+                    "team": team
+                }
+                output.append(mat)
+    return output

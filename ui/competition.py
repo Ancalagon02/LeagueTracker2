@@ -2,6 +2,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QSizePolicy, QSpacerItem, QTableWidgetItem, QWidget, QLabel, QComboBox, QVBoxLayout, QHBoxLayout, QPushButton,
 QTableWidget, QAbstractItemView, QFrame, QToolButton)
 import database.data as data
+import modules.helpers as helper
 
 
 class Competition(QWidget):
@@ -14,6 +15,8 @@ class Competition(QWidget):
         self.init_ui()
         self.set_layout()
         self.clubs = data.read_teams_name_by_league_name(self.league_name)
+
+        helper.map_matches(self.league_name)
 
 
     def init_ui(self) -> None:
