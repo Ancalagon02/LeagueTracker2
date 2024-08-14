@@ -1,6 +1,7 @@
 from PyQt6.QtCore import QDate, Qt
 from PyQt6.QtWidgets import (QListWidget, QWidget, QLabel, QSpinBox, QSpacerItem, QVBoxLayout,
 QHBoxLayout, QDateEdit, QSizePolicy, QPushButton)
+import modules.Data_Process as data
 
 
 class Matches(QWidget):
@@ -17,6 +18,7 @@ class Matches(QWidget):
 
     def init_ui(self):
         self.team_listwdget = QListWidget()
+        self.set_teams()
 
         self.date_dateedit = QDateEdit()
         self.date_dateedit.setCalendarPopup(True)
@@ -88,3 +90,8 @@ class Matches(QWidget):
         master_layout.addLayout(row1)
 
         self.setLayout(master_layout)
+
+
+    def set_teams(self) -> None:
+        teams: list[str] = data.return_teams_for_match(self.league_name)
+        self.team_listwdget.addItems(teams)

@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QApplication
 import sys
 from modules.state import State
 from database.create_database import DBConnections
+import database.data as dad
 
 
 def main(file: str) -> None:
@@ -16,7 +17,6 @@ def main(file: str) -> None:
 
     state = State()
     state.init_main_window()
-
 
     sys.exit(app.exec())
 

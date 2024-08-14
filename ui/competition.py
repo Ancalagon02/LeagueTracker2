@@ -1,12 +1,15 @@
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QSizePolicy, QSpacerItem, QTableWidgetItem, QWidget, QLabel, QComboBox, QVBoxLayout, QHBoxLayout, QPushButton,
 QTableWidget, QAbstractItemView, QFrame, QToolButton)
+import modules.Data_Process as data
 
 
 class Competition(QWidget):
     def __init__(self, league_name: str) -> None:
         super().__init__()
         self.league_name = league_name
+
+        self.setWindowTitle(self.league_name)
         
         self.init_ui()
         self.set_layout()
@@ -38,6 +41,7 @@ class Competition(QWidget):
         self.date_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.date_combobox = QComboBox(self.frame1)
+        self.set_dates()
 
         self.up_button = QToolButton(self.frame1)
         self.up_button.setArrowType(Qt.ArrowType.UpArrow)
@@ -61,6 +65,8 @@ class Competition(QWidget):
         self.exit_putton = QPushButton(self.frame2)
         self.exit_putton.setText("Exit")
         self.exit_putton.clicked.connect(self.close)
+
+        self.set_table()
 
 
     def set_layout(self) -> None:
@@ -92,3 +98,23 @@ class Competition(QWidget):
         master_layout.addLayout(row2)
 
         self.setLayout(master_layout)
+
+
+    def set_dates(self) -> None:
+        dates: list[str] = data.return_dates(self.league_name)
+        self.date_combobox.addItems(dates)
+
+
+    def set_table(self) -> None:
+        date: str = self.date_combobox.currentText()
+        matches: list[dict] = data.return_competition(self.league_name, date)
+        self.competition_tablewidget.setRowCount(len(matches))
+        row: int = 0
+        while row < self.competition_tablewidget.rowCount():
+            column: int = 0
+            for item in matches[row].values():
+                num: QTableWidgetItem = QTableWidgetItem()
+                num.setData(Qt.ItemDataRole.DisplayRole, item)
+                self.competition_tablewidget.setItem(row, column, num)
+                column += 1
+            row += 1

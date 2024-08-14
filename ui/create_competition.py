@@ -1,3 +1,4 @@
+from datetime import date
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QLabel, QWidget, QPushButton, QFrame, QGridLayout, QVBoxLayout, QHBoxLayout,
 QSizePolicy, QSpacerItem, QComboBox, QListWidget, QAbstractItemView)
@@ -264,4 +265,6 @@ class CreateCompetition(QWidget):
             team = self.team_listwidget.item(club)
             if team is not None:
                 teams.append(team.text())
+                data.create_match(team.text())
         data.create_competition(teams, league_name)
+        data.create_matches(teams, league_name)
