@@ -17,6 +17,7 @@ def main(file: str) -> None:
     state = State()
     state.init_main_window()
 
+
     sys.exit(app.exec())
 
     

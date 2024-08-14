@@ -1,18 +1,15 @@
-from datetime import date
 from PyQt6.QtCore import QDate, Qt
 from PyQt6.QtWidgets import (QListWidget, QWidget, QLabel, QSpinBox, QSpacerItem, QVBoxLayout,
 QHBoxLayout, QDateEdit, QSizePolicy, QPushButton)
-from ui.competition import Competition
-import database.data as data
-import modules.helpers as helper 
 
 
 class Matches(QWidget):
-    def __init__(self, competition: Competition):
+    def __init__(self, league_name: str):
         super().__init__()
 
+        self.league_name = league_name
+
         self.setWindowTitle("Wedestrijd")
-        self.competition = competition
 
         self.init_ui()
         self.set_layout()
@@ -20,7 +17,6 @@ class Matches(QWidget):
 
     def init_ui(self):
         self.team_listwdget = QListWidget()
-        self.team_listwdget.addItems(self.competition.clubs)
 
         self.date_dateedit = QDateEdit()
         self.date_dateedit.setCalendarPopup(True)
@@ -33,7 +29,6 @@ class Matches(QWidget):
 
         self.team_one_button = QPushButton()
         self.team_one_button.setText("Selecteer")
-        self.team_one_button.clicked.connect(self.pressed_button_one)
         
         self.team_one_spinbox = QSpinBox()
 
@@ -52,14 +47,12 @@ class Matches(QWidget):
 
         self.team_two_button = QPushButton()
         self.team_two_button.setText("Selecteer")
-        self.team_two_button.clicked.connect(self.pressed_button_two)
         
         self.team_two_spinbox = QSpinBox()
 
         self.match_button = QPushButton()
         self.match_button.setText("Match")
         self.match_button.setDisabled(True)
-        self.match_button.clicked.connect(self.played_game)
 
         self.go_back_button = QPushButton()
         self.go_back_button.setText("Go Back")
@@ -95,101 +88,3 @@ class Matches(QWidget):
         master_layout.addLayout(row1)
 
         self.setLayout(master_layout)
-
-
-    def button_disabled(self) -> bool:
-        button_one = self.team_one_button.isEnabled()
-        button_two = self.team_two_button.isEnabled()
-        output: bool = False
-        if button_one == False and button_two == False:
-            output = True
-        return output
-
-
-    def get_current_item(self) -> str:
-        output: str = ""
-        for item in self.team_listwdget.selectedItems():
-            self.team_listwdget.takeItem(self.team_listwdget.row(item))
-            output = item.text()
-        return output
-
-
-    def pressed_button_one(self) -> None:
-        text = self.get_current_item()
-        if text != "":
-            self.team_one_label.setText(text)
-            self.team_one_button.setDisabled(True)
-            if self.button_disabled():
-                self.match_button.setDisabled(False)
-
-
-    def pressed_button_two(self) -> None:
-        text = self.get_current_item()
-        if text != "":
-            self.team_two_label.setText(text)
-            self.team_two_button.setDisabled(True)
-            if self.button_disabled():
-                self.match_button.setDisabled(False)
-
-
-    def played_game(self) -> None:
-        play_date: date = self.date_dateedit.date().toPyDate()
-        league_name: str = self.competition.league_name
-        teams = helper.map_matches(league_name)
-        team_one = self.map_team_one(play_date)
-        team_two = self.map_team_two(play_date)
-        
-        for team in teams:
-            if team["name"] == team_one["name"]:
-                print(team)
-                print(team_one)
-            elif team["name"] == team_two["name"]:
-                print()
-                print(team)
-                print(team_two)
-
-        self.reset_ui()
-        if self.team_listwdget.count() == 0:
-            self.disable_ui()
-
-
-    def map_team_two(self, play_date: date) -> dict:
-        name = self.team_two_label.text()
-        score = self.team_two_spinbox.text()
-        score_oponent = self.team_one_spinbox.text()
-        output: dict = {
-            "name": name,
-            "data": str(play_date.strftime("%d-%m-%y")),
-            "goals_for": score,
-            "score_against": score_oponent
-        }
-        return output
-
-
-    def map_team_one(self, play_date: date) -> dict:
-        name = self.team_one_label.text()
-        score = self.team_one_spinbox.text()
-        score_oponent = self.team_two_spinbox.text()
-        output: dict = {
-            "name": name,
-            "data": str(play_date.strftime("%d-%m-%y")),
-            "goals_for": score,
-            "score_against": score_oponent
-        }
-        return output
-
-
-    def reset_ui(self) -> None:
-        self.team_one_label.setText("Ploeg Een")
-        self.team_one_spinbox.setValue(0)
-        self.team_one_button.setDisabled(False)
-
-        self.team_two_label.setText("Ploeg Twee")
-        self.team_two_spinbox.setValue(0)
-        self.team_two_button.setDisabled(False)
-
-
-    def disable_ui(self) -> None:
-        self.team_one_button.setDisabled(True)
-        self.team_two_button.setDisabled(True)
-        self.match_button.setDisabled(True)

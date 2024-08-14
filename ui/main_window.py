@@ -1,7 +1,7 @@
 from PyQt6.QtCore import Qt 
 from PyQt6.QtWidgets import (QWidget, QLabel, QComboBox, QSizePolicy, QSpacerItem, QPushButton, QFrame, QListWidget,
 QAbstractScrollArea, QAbstractItemView, QHBoxLayout, QVBoxLayout)
-import database.data as data
+import modules.Data_Process as data
 
 
 class MainWindow(QWidget):
@@ -19,8 +19,7 @@ class MainWindow(QWidget):
         self.label.setText("Selecteer Land")
 
         self.country_combobox = QComboBox()
-        self.country_combobox.addItems(data.read_countries())
-        self.country_combobox.currentTextChanged.connect(self.update_comp_list)
+        self.country_combobox.addItems(data.return_country_names())
 
         self.horizontal_spacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
@@ -35,8 +34,6 @@ class MainWindow(QWidget):
         self.competition_listwidget.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
         self.competition_listwidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.competition_listwidget.setAlternatingRowColors(True)
-        self.init_listwidget()
-        self.competition_listwidget.itemSelectionChanged.connect(self.update_comp_label)
 
         self.label_2 = QLabel()
         self.label_2.setText("Competitie:")
@@ -72,22 +69,3 @@ class MainWindow(QWidget):
         master_layout.addLayout(col2)
 
         self.setLayout(master_layout)
-
-
-    def init_listwidget(self) -> None:
-        country_name = self.country_combobox.currentText()
-        self.competition_listwidget.addItems(data.read_leagues_name_by_country_name(country_name))
-
-
-    def update_comp_list(self) -> None:
-        self.competition_listwidget.clear()
-        self.init_listwidget()
-        self.start_competition_button.setDisabled(True)
-        self.competition_name_label.setText("Placeholder")
-
-
-    def update_comp_label(self) -> None:
-        league_name = self.competition_listwidget.currentItem()
-        if league_name is not None:
-            self.competition_name_label.setText(league_name.text())
-            self.start_competition_button.setDisabled(False)

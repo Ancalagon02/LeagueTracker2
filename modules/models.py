@@ -1,19 +1,22 @@
 from dataclasses import dataclass
 from datetime import date
 
-@dataclass
+@dataclass(kw_only=True)
 class Country:
+    id: int = 0
     name: str
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Club:
+    id: int = 0
     name: str
     country: Country
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Match:
+    id: int = 0
     club: Club
     times_played: int = 0
     times_won: int = 0
@@ -31,19 +34,23 @@ class Match:
         if self.times_won != 0 and self.times_drawn != 0:
             self.points = (self.times_won + 3) + self.times_drawn
 
-@dataclass
+@dataclass(kw_only=True)
 class League:
+    id: int = 0
     name: str
     country: Country
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Competition:
+    id: int = 0
     league: League
     clubs: list[Club]
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Matches:
+    id: int = 0
+    dates: list[date]
     competition: Competition
     matches: list[Match]

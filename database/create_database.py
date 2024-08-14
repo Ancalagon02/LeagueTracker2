@@ -27,8 +27,7 @@ class CreateDatabase(ABC):
             """CREATE TABLE IF NOT EXISTS match (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 club_id INTEGER NOT NULL,
-                data TEXT NOT NULL,
-                times_played INTEGER NOT NULL,
+                date TEXT NOT NULL,
                 times_won INTEGER NOT NULL,
                 times_loses INTEGER NOT NULL,
                 times_drawn INTEGER NOT NULL,
