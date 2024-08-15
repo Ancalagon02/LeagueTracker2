@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 import database.data as data 
 from modules.models import Club, Competition, Country, League, Match, Matches
 
@@ -59,7 +59,7 @@ def return_teams(teams: list[str]) -> list[Club]:
     return output
 
 
-def create_match(team_name: str, play_date: date = date.today(), times_won: int = 0,
+def create_match(team_name: str, play_date: date = date.today() - timedelta(5), times_won: int = 0,
                  times_loses: int = 0, times_drawn: int = 0, goals_for: int = 0, goals_against: int = 0) -> None:
     team: Club = data.read_team_by_team_name(team_name)
     match: Match = Match(
@@ -124,8 +124,97 @@ def return_dates(league_name: str) -> list[str]:
 
 
 def return_teams_for_match(league_name: str) -> list[str]:
-    competition: Competition = data.read_competition_by_league_name(league_name)
+    matches: Matches = return_matches_by_last_date(league_name)
     output: list[str] = []
-    for team in competition.clubs:
+    for team in matches.competition.clubs:
         output.append(team.name)
     return output
+
+
+def return_matches_by_last_date(league_name: str) -> Matches:
+    date: str = data.read_last_date_by_league_name(league_name)
+    matches: Matches = data.read_matches_by_league_name_and_date(league_name, date)
+    return matches
+
+
+def return_team(team_name: str, goals_for: int, goals_against: int, play_date: date) -> dict[str, str | int | date]:
+    return {
+        "team_name": team_name,
+        "play_date": play_date,
+        "times_won": 0,
+        "times_loses": 0,
+        "times_drawn": 0,
+        "goals_for": goals_for,
+        "goals_against": goals_against
+    }
+
+
+def process_matches(matches_dict: list[dict[str, str | int | date]], league_name: str, play_date: date):
+    matches: Matches = return_matches_by_last_date(league_name)
+    new_teams: list[Match] = []
+    team_list: list[str] = []
+    row: int = 0
+    for team in matches.matches:
+        if row < len(matches_dict):
+            new_match: Match = map_matches(team, matches_dict[row], play_date)
+            new_teams.append(new_match)
+        else:
+            new_match: Match = map_other_match(team, play_date)
+            new_teams.append(new_match)
+        row += 1
+    for new in new_teams:
+        team_list.append(new.club.name)
+        data.create_match(new)
+    create_matches(team_list, league_name)
+
+
+def create_matches_from_matches(league_name: str, matches_var: list[Match]) -> None:
+    competiton: Competition = data.read_competition_by_league_name(league_name)
+    matches: Matches = Matches(competition = competiton, matches = matches_var)
+    data.create_matches(matches)
+
+
+def map_other_match(team: Match, play_date: date) -> Match:
+    new_team: Match = team
+    new_team.play_date = play_date
+    return new_team
+
+
+def process_match(team_one: dict[str, str | int | date], team_two: dict[str, str | int | date]):
+    dicide_winning_team(team_one, team_two)
+
+
+def map_matches(team: Match, match:dict[str, str | int | date], play_date: date) -> Match:
+    if match["team_name"] == team.club.name:
+        new_team: Match = map_team(team, match)
+        return new_team
+    elif match["team_name"] == team.club.name:
+        new_team: Match = map_team(team, match)
+        return new_team
+    else:
+        new_team: Match = team
+        new_team.play_date = play_date
+        return new_team
+
+
+def map_team(match: Match, team: dict) -> Match:
+    output: Match = match
+    match.play_date = team["play_date"]
+    match.times_won += team["times_won"]
+    match.times_loses += team["times_loses"]
+    match.times_drawn += team["times_drawn"]
+    match.goals_for += team["goals_for"]
+    match.goals_against += team["goals_against"]
+    return output
+
+
+def dicide_winning_team(team_one: dict, team_two: dict):
+    if team_one["goals_for"] > team_two["goals_for"]:
+        team_one["times_won"] += 1
+        team_two["times_loses"] += 1
+    elif team_two["goals_for"] > team_one["goals_for"]:
+        team_two["times_won"] += 1
+        team_one["times_loses"] += 1
+    elif team_two["goals_for"] == team_one["goals_for"]:
+        team_one["times_drawn"] += 1
+        team_two["times_drawn"] += 1

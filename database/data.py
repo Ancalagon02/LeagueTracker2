@@ -241,3 +241,20 @@ def read_dates_by_league_name(league_name: str) -> list[str]:
     for [row] in rows:
         output.append(row)
     return output
+
+
+def read_last_date_by_league_name(league_name: str) -> str:
+    sql: str = """
+            SELECT DISTINCT match.date
+            FROM matches
+            INNER JOIN match on matches.match_id == match.id
+            INNER JOIN competition ON matches.competition_id = competition.id
+            INNER JOIN league on  competition.league_id = league.id
+            WHERE league.name = ?
+            ORDER BY match.id DESC
+            LIMIT 1
+            """
+    data: tuple[str] = (league_name,)
+    row = _db.fetchall(sql, data)
+    output: str = row[0][0]
+    return output
