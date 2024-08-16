@@ -149,23 +149,46 @@ def return_team(team_name: str, goals_for: int, goals_against: int, play_date: d
     }
 
 
-def process_matches(matches_dict: list[dict[str, str | int | date]], league_name: str, play_date: date):
+def process_matches(matches_dict: list[dict[str, str | int | date]], league_name: str, play_date: date) -> None:
     matches: Matches = return_matches_by_last_date(league_name)
-    new_teams: list[Match] = []
-    team_list: list[str] = []
-    row: int = 0
-    for team in matches.matches:
-        if row < len(matches_dict):
-            new_match: Match = map_matches(team, matches_dict[row], play_date)
-            new_teams.append(new_match)
-        else:
-            new_match: Match = map_other_match(team, play_date)
-            new_teams.append(new_match)
-        row += 1
-    for new in new_teams:
-        team_list.append(new.club.name)
-        data.create_match(new)
+    sorted_matches: list[Match] = sorted(matches.matches, key = lambda x: x.club.name)
+    sorted_dict: list[dict[str, str | int | date]] = sorted(matches_dict, key = lambda x: x["team_name"])
+    remove_list: list[Match] = []
+    new_teams: list[Match] = create_new_teams(sorted_matches, sorted_dict, play_date, remove_list)
+    for team in remove_list:
+        sorted_matches.remove(team)
+    create_other_new_teams(sorted_matches, play_date, new_teams)
+    team_list: list[str] = create_match_from_match(new_teams)
     create_matches(team_list, league_name)
+
+
+def create_other_new_teams(sorted_matches: list[Match], play_date: date, new_teams: list[Match]):
+    for team in sorted_matches:
+        new_match: Match = map_other_match(team, play_date)
+        new_teams.append(new_match)
+
+
+def create_match_from_match(new_teams: list[Match]) -> list[str]:
+    output: list[str] = []
+    for team in new_teams:
+        output.append(team.club.name)
+        print()
+        print(team)
+        data.create_match(team)
+    return output
+
+
+def create_new_teams(sorted_matches: list[Match], sorted_dict: list[dict[str, str | int | date]], play_date: date, remove_list: list[Match]) -> list[Match]:
+    new_teams: list[Match] = []
+    for team in sorted_matches:
+        row: int = 0
+        for match in sorted_dict:
+            if match["team_name"] == team.club.name:
+                new_match: Match = map_matches(team, sorted_dict[row], play_date)
+                new_teams.append(new_match)
+                remove_list.append(team)
+            row += 1
+    return new_teams
 
 
 def create_matches_from_matches(league_name: str, matches_var: list[Match]) -> None:
@@ -185,10 +208,10 @@ def process_match(team_one: dict[str, str | int | date], team_two: dict[str, str
 
 
 def map_matches(team: Match, match:dict[str, str | int | date], play_date: date) -> Match:
+    print(match["team_name"])
+    print(team.club.name)
+    print()
     if match["team_name"] == team.club.name:
-        new_team: Match = map_team(team, match)
-        return new_team
-    elif match["team_name"] == team.club.name:
         new_team: Match = map_team(team, match)
         return new_team
     else:

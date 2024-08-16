@@ -220,9 +220,10 @@ def read_matches_by_league_name_and_date(league_name: str, date: str) -> Matches
             times_drawn = row[11], times_loses = row[12], goals_for = row[13], goals_against = row[14])
         matches_list.append(match)
         club_list.append(club)
+    sort_matches = sorted(matches_list, key = lambda x: (x.points, x.goals_difference), reverse = True)
     output: Matches = Matches(id = rows[0][0],
         competition = Competition(id = rows[0][1], league = league_obj, clubs = club_list), 
-        matches = matches_list)
+        matches = sort_matches)
     return output
 
 

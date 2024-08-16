@@ -28,7 +28,6 @@ class Competition(QWidget):
         self.competition_tablewidget.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
         self.competition_tablewidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)
         self.competition_tablewidget.setAlternatingRowColors(True)
-        self.competition_tablewidget.setHorizontalHeaderLabels(["Ploeg", "P", "W", "L", "D", "F", "A", "GD", "Pts"])
 
 
         self.frame1 = QFrame()
@@ -128,8 +127,8 @@ class Competition(QWidget):
                 column += 1
             row += 1
         self.competition_tablewidget.resizeColumnsToContents()
-        self.competition_tablewidget.sortItems(8, Qt.SortOrder.DescendingOrder)
         self.check_buttons()
+        self.competition_tablewidget.setHorizontalHeaderLabels(["Ploeg", "P", "W", "L", "D", "F", "A", "GD", "Pts"])
 
 
     def check_buttons(self) -> None:
