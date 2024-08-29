@@ -172,8 +172,6 @@ def create_match_from_match(new_teams: list[Match]) -> list[str]:
     output: list[str] = []
     for team in new_teams:
         output.append(team.club.name)
-        print()
-        print(team)
         data.create_match(team)
     return output
 
@@ -208,9 +206,6 @@ def process_match(team_one: dict[str, str | int | date], team_two: dict[str, str
 
 
 def map_matches(team: Match, match:dict[str, str | int | date], play_date: date) -> Match:
-    print(match["team_name"])
-    print(team.club.name)
-    print()
     if match["team_name"] == team.club.name:
         new_team: Match = map_team(team, match)
         return new_team

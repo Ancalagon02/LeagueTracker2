@@ -63,9 +63,12 @@ class Matches(QWidget):
         self.match_button.setDisabled(True)
         self.match_button.clicked.connect(self.match_pressed)
 
+        self.register_mathes = QPushButton();
+        self.register_mathes.setText("Registreer Matches")
+        self.register_mathes.clicked.connect(self.go_back_pressed)
+
         self.go_back_button = QPushButton()
         self.go_back_button.setText("Go Back")
-        self.go_back_button.clicked.connect(self.go_back_pressed)
 
 
     def set_layout(self):
@@ -92,6 +95,7 @@ class Matches(QWidget):
         row1.addWidget(self.date_dateedit)
         row1.addLayout(col2)
         row1.addWidget(self.match_button)
+        row1.addWidget(self.register_mathes)
         row1.addWidget(self.go_back_button)
 
         master_layout.addWidget(self.team_listwdget)

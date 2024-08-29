@@ -56,6 +56,7 @@ class State:
     def init_match_window(self) -> None:
         self.match = Matches(self.league_name)
         self.match.go_back_button.clicked.connect(self.close_match)
+        self.match.register_mathes.clicked.connect(self.close_match)
         self.league_window.close()
         self.match.show()
 
