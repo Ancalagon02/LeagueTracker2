@@ -1,5 +1,5 @@
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import (QSizePolicy, QSpacerItem, QTableWidgetItem, QWidget, QLabel, QComboBox, QVBoxLayout, QHBoxLayout, QPushButton,
+from PyQt6.QtWidgets import (QHeaderView, QSizePolicy, QSpacerItem, QTableWidgetItem, QWidget, QLabel, QComboBox, QVBoxLayout, QHBoxLayout, QPushButton,
 QTableWidget, QAbstractItemView, QFrame, QToolButton)
 import modules.Data_Process as data
 
@@ -129,6 +129,10 @@ class Competition(QWidget):
         self.competition_tablewidget.resizeColumnsToContents()
         self.check_buttons()
         self.competition_tablewidget.setHorizontalHeaderLabels(["Ploeg", "P", "W", "L", "D", "F", "A", "GD", "Pts"])
+        row = 0
+        for item in matches[row].values():
+            self.competition_tablewidget.horizontalHeader().setSectionResizeMode(row, QHeaderView.ResizeMode.Stretch)
+            row += 1
 
 
     def check_buttons(self) -> None:
