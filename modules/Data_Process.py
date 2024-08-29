@@ -59,7 +59,7 @@ def return_teams(teams: list[str]) -> list[Club]:
     return output
 
 
-def create_match(team_name: str, play_date: date = date.today() - timedelta(5), times_won: int = 0,
+def create_match(team_name: str, play_date: date, times_won: int = 0,
                  times_loses: int = 0, times_drawn: int = 0, goals_for: int = 0, goals_against: int = 0) -> None:
     team: Club = data.read_team_by_team_name(team_name)
     match: Match = Match(

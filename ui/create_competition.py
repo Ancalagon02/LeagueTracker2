@@ -1,6 +1,6 @@
 from datetime import date
-from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import (QLabel, QWidget, QPushButton, QFrame, QGridLayout, QVBoxLayout, QHBoxLayout,
+from PyQt6.QtCore import QDate, Qt
+from PyQt6.QtWidgets import (QDateEdit, QLabel, QWidget, QPushButton, QFrame, QGridLayout, QVBoxLayout, QHBoxLayout,
 QSizePolicy, QSpacerItem, QComboBox, QListWidget, QAbstractItemView)
 import modules.helpers as helper
 import modules.Data_Process as data
@@ -46,6 +46,20 @@ class CreateCompetition(QWidget):
         self.country_combobox = QComboBox(self.frame1)
         self.country_combobox.addItems(data.return_country_names())
         self.country_combobox.currentTextChanged.connect(self.changed_country)
+
+        self.frame5 = QFrame()
+        self.frame5.setFrameShape(QFrame.Shape.Box)
+        self.frame5.setFrameShadow(QFrame.Shadow.Plain)
+        self.frame5.setLineWidth(4)
+
+        self.date_label = QLabel(self.frame5)
+        self.date_label.setText("Selecteer Datum")
+        self.date_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.date_picker = QDateEdit(self.frame5)
+        self.date_picker.setCalendarPopup(True)
+        self.date_picker.setDate(QDate.currentDate())
+        self.date_picker.setDisplayFormat("dddd dd MMMM yyyy")
 
         self.frame2 = QFrame()
         self.frame2.setFrameShape(QFrame.Shape.Box)
@@ -112,6 +126,7 @@ class CreateCompetition(QWidget):
         master_layout = QGridLayout()
         grid1 = QHBoxLayout()
         grid2 = QVBoxLayout()
+        grid2_col1_2 = QVBoxLayout(self.frame5)
         grid2_col1 = QVBoxLayout(self.frame1)
         grid2_col2 = QVBoxLayout(self.frame2)
         grid2_col2_row1 = QHBoxLayout()
@@ -122,6 +137,9 @@ class CreateCompetition(QWidget):
         grid1.addWidget(self.competition_label)
         grid1.addWidget(self.competition_name_label)
         grid1.setStretch(1, 1)
+
+        grid2_col1_2.addWidget(self.date_label)
+        grid2_col1_2.addWidget(self.date_picker)
 
         grid2_col1.addWidget(self.country_label)
         grid2_col1.addWidget(self.country_combobox)
@@ -140,6 +158,7 @@ class CreateCompetition(QWidget):
 
         grid2.addWidget(self.competition_name_button)
         grid2.addItem(self.verticalspacer1)
+        grid2.addWidget(self.frame5)
         grid2.addWidget(self.frame1)
         grid2.addWidget(self.frame2)
         grid2.addWidget(self.frame3)
@@ -259,12 +278,13 @@ class CreateCompetition(QWidget):
 
     def create_competition(self) -> None:
         league_name: str = self.competition_name_label.text()
+        play_date: date = self.date_picker.date().toPyDate()
         self.create_league(league_name)
         teams: list[str] = []
         for club in range(self.team_listwidget.count()):
             team = self.team_listwidget.item(club)
             if team is not None:
                 teams.append(team.text())
-                data.create_match(team.text())
+                data.create_match(team.text(), play_date)
         data.create_competition(teams, league_name)
         data.create_matches(teams, league_name)
