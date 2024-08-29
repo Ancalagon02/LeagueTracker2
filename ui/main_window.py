@@ -77,6 +77,7 @@ class MainWindow(QWidget):
     def set_leagues(self) -> None:
         country_name: str = self.country_combobox.currentText()
         self.competition_listwidget.addItems(data.return_league_names(country_name))
+        self.competition_listwidget.sortItems(Qt.SortOrder.DescendingOrder)
 
 
     def changed_country(self) -> None:
