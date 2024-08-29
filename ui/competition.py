@@ -15,6 +15,7 @@ class Competition(QWidget):
         self.set_layout()
 
 
+
     def init_ui(self) -> None:
         self.competition_tablewidget = QTableWidget()
         self.competition_tablewidget.setColumnCount(9)

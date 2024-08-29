@@ -1,3 +1,4 @@
+from PyQt6.QtWidgets import QWidget
 from ui.main_window import MainWindow
 from ui.create_competition import CreateCompetition
 from ui.competition import Competition
@@ -12,6 +13,7 @@ class State:
         self.main_window = MainWindow()
         self.main_window.create_competition_button.clicked.connect(self.init_competition_window)
         self.main_window.start_competition_button.clicked.connect(self.init_comp_from_main)
+        self.center_screen(self.main_window)
         self.main_window.show()
 
 
@@ -19,6 +21,7 @@ class State:
         self.comp_window = CreateCompetition()
         self.comp_window.go_back_button.clicked.connect(self.return_main_window_from_comp)
         self.comp_window.create_competition_button.clicked.connect(self.init_comp_from_comp)
+        self.center_screen(self.comp_window)
         self.comp_window.show()
         self.main_window.close()
 
@@ -38,6 +41,7 @@ class State:
         self.league_window.go_back_button.clicked.connect(self.return_main_window_from_league)
         self.league_window.exit_putton.clicked.connect(lambda: self.league_window.close())
         self.league_window.match_button.clicked.connect(self.init_match_window)
+        self.center_screen(self.league_window)
         self.league_window.show()
 
 
@@ -58,9 +62,18 @@ class State:
         self.match.go_back_button.clicked.connect(self.close_match)
         self.match.register_mathes.clicked.connect(self.close_match)
         self.league_window.close()
+        self.center_screen(self.match)
         self.match.show()
 
 
     def close_match(self) -> None:
         self.match.close()
         self.init_competition()
+
+    
+    def center_screen(self, widget: QWidget) -> None:
+        screen = widget.screen().geometry()
+        window_size = widget.geometry()
+        x = (screen.width() - window_size.width()) // 2
+        y = (screen.height() - window_size.height()) // 2
+        widget.move(x, y)
