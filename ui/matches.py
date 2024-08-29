@@ -23,6 +23,7 @@ class Matches(QWidget):
     def init_ui(self):
         self.team_listwdget = QListWidget()
         self.set_teams()
+        self.team_listwdget.doubleClicked.connect(self.list_clicked)
 
         self.date_dateedit = QDateEdit()
         self.date_dateedit.setCalendarPopup(True)
@@ -64,7 +65,7 @@ class Matches(QWidget):
         self.match_button.clicked.connect(self.match_pressed)
 
         self.register_mathes = QPushButton();
-        self.register_mathes.setText("Registreer Matches")
+        self.register_mathes.setText("Registreer Wedestrijden")
         self.register_mathes.clicked.connect(self.go_back_pressed)
 
         self.go_back_button = QPushButton()
@@ -102,6 +103,13 @@ class Matches(QWidget):
         master_layout.addLayout(row1)
 
         self.setLayout(master_layout)
+
+
+    def list_clicked(self) -> None:
+        if self.team_one_label.text() == "Ploeg Een":            
+            self.pressed_button_one()
+        elif self.team_two_label.text() == "Ploeg Twee":
+            self.pressed_button_two()
 
 
     def button_disabled(self) -> bool:
@@ -142,6 +150,7 @@ class Matches(QWidget):
     def set_teams(self) -> None:
         teams: list[str] = data.return_teams_for_match(self.league_name)
         self.team_listwdget.addItems(teams)
+        self.team_listwdget.sortItems(Qt.SortOrder.DescendingOrder)
 
 
     def match_pressed(self) -> None:
