@@ -27,7 +27,7 @@ class Matches(QWidget):
 
         self.date_dateedit = QDateEdit()
         self.date_dateedit.setCalendarPopup(True)
-        self.date_dateedit.setDate(QDate.currentDate())
+        self.date_dateedit.setDate(data.return_last_date(self.league_name))
         self.date_dateedit.setDisplayFormat("dddd dd MMMM yyyy")
 
         self.team_one_label = QLabel()

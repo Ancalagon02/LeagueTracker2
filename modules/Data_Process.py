@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import date, datetime
 import database.data as data 
 from modules.models import Club, Competition, Country, League, Match, Matches
 
@@ -135,6 +135,12 @@ def return_matches_by_last_date(league_name: str) -> Matches:
     date: str = data.read_last_date_by_league_name(league_name)
     matches: Matches = data.read_matches_by_league_name_and_date(league_name, date)
     return matches
+
+
+def return_last_date(league_name: str) -> date:
+    last_date: str = data.read_last_date_by_league_name(league_name)
+    play_date: date = datetime.strptime(last_date, "%d-%m-%y")
+    return play_date
 
 
 def return_team(team_name: str, goals_for: int, goals_against: int, play_date: date) -> dict[str, str | int | date]:
