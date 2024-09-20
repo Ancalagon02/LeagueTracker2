@@ -117,10 +117,14 @@ class Matches(QWidget):
         if self.team_one_label.text() != "Ploeg Een":
             self.team_listwdget.addItem(team_one)
             self.team_one_label.setText("Ploeg Een")
+            self.team_one_spinbox.setValue(0)
+            self.team_one_button.setDisabled(False)
 
         if self.team_two_label.text() != "Ploeg Twee":
             self.team_listwdget.addItem(tean_two)
             self.team_two_label.setText("Ploeg Twee")
+            self.team_two_spinbox.setValue(0)
+            self.team_two_button.setDisabled(False)
 
         self.team_listwdget.sortItems()
 
