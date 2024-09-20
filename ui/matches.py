@@ -64,6 +64,10 @@ class Matches(QWidget):
         self.match_button.setDisabled(True)
         self.match_button.clicked.connect(self.match_pressed)
 
+        self.reset_button = QPushButton()
+        self.reset_button.setText("Verwijder Wedestrijd")
+        self.reset_button.clicked.connect(self.reset_match)
+
         self.register_mathes = QPushButton();
         self.register_mathes.setText("Registreer Wedestrijden")
         self.register_mathes.clicked.connect(self.go_back_pressed)
@@ -96,6 +100,7 @@ class Matches(QWidget):
         row1.addWidget(self.date_dateedit)
         row1.addLayout(col2)
         row1.addWidget(self.match_button)
+        row1.addWidget(self.reset_button)
         row1.addWidget(self.register_mathes)
         row1.addWidget(self.go_back_button)
 
@@ -103,6 +108,21 @@ class Matches(QWidget):
         master_layout.addLayout(row1)
 
         self.setLayout(master_layout)
+
+
+    def reset_match(self) -> None:
+        team_one = self.team_one_label.text()
+        tean_two = self.team_two_label.text()
+
+        if self.team_one_label.text() != "Ploeg Een":
+            self.team_listwdget.addItem(team_one)
+            self.team_one_label.setText("Ploeg Een")
+
+        if self.team_two_label.text() != "Ploeg Twee":
+            self.team_listwdget.addItem(tean_two)
+            self.team_two_label.setText("Ploeg Twee")
+
+        self.team_listwdget.sortItems()
 
 
     def list_clicked(self) -> None:
