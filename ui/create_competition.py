@@ -191,7 +191,7 @@ class CreateCompetition(QWidget):
 
     def set_comp_name(self) -> None:
         comp_name: str = self.comp_dialog.line_edit.text()
-        if helper.validate_text(comp_name):
+        if helper.validate_text(comp_name) and self.validate_dup_comp_name(comp_name):
             self.competition_name_label.setText(comp_name)
             self.comp_dialog.close()
             self.set_comp_button()
@@ -288,3 +288,15 @@ class CreateCompetition(QWidget):
                 data.create_match(team.text(), play_date)
         data.create_competition(teams, league_name)
         data.create_matches(teams, league_name)
+
+
+    def validate_dup_comp_name(self, name: str) -> bool:
+        output: bool = False
+        competition_names = data.return_league_names(self.country_combobox.currentText())
+        for names in competition_names:
+            if names == name:
+                output = False
+                break
+            else:
+                output = True
+        return output
