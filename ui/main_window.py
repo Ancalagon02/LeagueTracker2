@@ -1,3 +1,4 @@
+from PyQt6 import QtGui
 from PyQt6.QtCore import Qt 
 from PyQt6.QtWidgets import (QWidget, QLabel, QComboBox, QSizePolicy, QSpacerItem, QPushButton, QFrame, QListWidget,
 QAbstractScrollArea, QAbstractItemView, QHBoxLayout, QVBoxLayout)
@@ -12,6 +13,21 @@ class MainWindow(QWidget):
 
         self.init_ui()
         self.set_layout()
+
+        self.center()
+
+
+    def center(self):
+        # Get the geometry of the monitor
+        screen_geometry = self.screen().geometry()
+        screen_center = screen_geometry.center()
+
+        # Get the geometry of the window and move it to the center of the screen
+        window_geometry = self.frameGeometry()
+        window_geometry.moveCenter(screen_center)
+
+        # Move the top-left point of the window to match the calculated center
+        self.move(window_geometry.topLeft())
 
 
     def init_ui(self) -> None:
@@ -50,6 +66,7 @@ class MainWindow(QWidget):
         self.start_competition_button.setObjectName("main-button")
         self.start_competition_button.setText("Start Competitie")
         self.start_competition_button.setDisabled(True)
+
 
 
     def set_layout(self) -> None:

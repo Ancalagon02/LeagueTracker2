@@ -233,8 +233,8 @@ class CreateCompetition(QWidget):
             self.team_listwidget.addItem(team_name)
             self.create_country_button.setDisabled(True)
             self.country_combobox.setDisabled(True)
-            self.team_dialog.close()
             self.set_comp_button()
+            self.team_dialog.line_edit.setText("")
         else:
             self.team_dialog.line_edit.setText(self.error_message())
 
@@ -293,6 +293,8 @@ class CreateCompetition(QWidget):
     def validate_dup_comp_name(self, name: str) -> bool:
         output: bool = False
         competition_names = data.return_league_names(self.country_combobox.currentText())
+        if competition_names == []:
+            output = True
         for names in competition_names:
             if names == name:
                 output = False
