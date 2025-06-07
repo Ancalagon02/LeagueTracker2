@@ -1,14 +1,12 @@
 # LeagueTracker2
 
-LeagueTracker2 is a Python-based application designed to help you track, analyze, and visualize your performance and statistics in League of Legends. Built with ease-of-use in mind, it allows players to monitor their games, review match history, and gain insights to improve their gameplay.
+LeagueTracker2 is a Python-based application designed to help you track, analyze, and visualize your performance and statistics in football (soccer) leagues. Built with ease-of-use in mind, it allows users to monitor matches, review league history, and gain insights into club and league performance.
 
 ## Features
 
-- **Game Tracking:** Log and review your League of Legends games.
-- **Statistics Dashboard:** Visualize your win rates, champion stats, and performance over time.
+- **Game Tracking:** Log and review football matches.
+- **Statistics Dashboard:** Visualize win rates, club stats, and performance over time.
 - **User-Friendly Interface:** Simple and intuitive navigation.
-- **Custom Filters:** Filter matches by champion, role, or time period.
-- **Data Export:** Export your stats for sharing or further analysis.
 
 ## Installation
 
@@ -30,19 +28,5 @@ LeagueTracker2 is a Python-based application designed to help you track, analyze
 
 ## Usage
 
-- Launch the app and follow the on-screen instructions to start logging your games.
+- Launch the app and follow the on-screen instructions to start logging your matches.
 - Access the dashboard to view your stats and trends.
-- Use filters to analyze your performance by champion, role, or date range.
-
-## Project Structure
-
-```
-LeagueTracker2/
-├── main.py
-├── tracker/           # Core tracking logic
-├── stats/             # Statistics and analytics
-├── ui/                # User interface components
-├── data/              # Data storage
-├── requirements.txt
-└── README.md
-```
